@@ -5,9 +5,9 @@
 <br/>
 </p>
 
-This repository contains the transcriptomics pipeline I developed during my stay in Prof. Frédéric Guillaume's [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics), from Sept. 2021 to Dec. 2022. The pipeline deals with various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
+This repository contains the transcriptomics pipeline that I developed during my stay with Prof. Frédéric Guillaume's [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics), from Sept. 2021 to Dec. 2022. The pipeline addresses various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
 
-The pipeline is described in detail below for publication and educational purposes.
+The pipeline was first designed to be deployed on the [CSC computing farm](https://www.csc.fi/en/). CSC-specific code has been retained in the public version for integrity and publication purposes.
 
 Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me</a> for any question.
 
