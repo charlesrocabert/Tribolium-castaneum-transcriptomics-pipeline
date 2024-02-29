@@ -154,13 +154,13 @@ Associated data folder(s): `./data/tribolium_bam`.
 flowchart LR
 subgraph local
 direction LR
-A[("Source<br/>BAMs")] --> B("1_CreateBamMap.py<br/><em>(local)</em>")
+A[("Source<br/>BAMs")] --> B("1_CreateBamMap.py<br/>(local)")
 B --> C[("BAM<br/>map")]
-C --> D("2_SplitBamMap.R<br/><em>(local)</em>")
+C --> D("2_SplitBamMap.R<br/>(local)")
 D --> E[("Samples")]
-E --> F("3_CheckBamReadgroups.py<br/><em>(local)</em>")
+E --> F("3_CheckBamReadgroups.py<br/>(local)")
 A[("Source<br/>BAMs")] --> F
-E --> G("4_RelocateBamFiles.py<br/><em>(local)</em>")
+E --> G("4_RelocateBamFiles.py<br/>(local)")
 A[("Source<br/>BAMs")] --> G
 G --> H[("Ready for<br/>analysis<br/>BAMs")]
 end
@@ -178,14 +178,14 @@ end
                      └── 4_SelectFilterAnnotateVariants.py
                 └── variant_detection_pipeline.sh
 
-The goal of this task is to perform a variant call on the entire transcriptomic data (version Tcas3.30 of the genome). It uses various software and ultimately produces a filtered VCF file containing raw SNPs.
+This task performs a variant call on the entire transcriptomic data (version Tcas3.30 of <em>T. castaneum</em> genome). It uses various software and ultimately produces a filtered VCF file containing raw SNPs.
 This raw SNPs VCF file is stored in `./data/tribolium_vcf/Tribolium_castaneum_ALL_Tcas3.30.vcf.gz`.
 
 Associated data folder(s): `./data/tribolium_vcf`.
 
-#### ⚙️ `1_BamPreProcessing.py` (HPC array wrapper):
+#### ⚙️ `1_BamPreProcessing.py` (HPC):
 > This script pre-processes BAM files by (in this order):
-> - Importing the unedited BAM file from Allas,
+> - Importing the unedited BAM file from the distant server,
 > - Importing the reference genome and generate indices,
 > - Adding the read group,
 > - Uncompressing the BAM file to SAM,
@@ -194,22 +194,22 @@ Associated data folder(s): `./data/tribolium_vcf`.
 > - Copying a version of the BAM file to mark duplicates,
 > - Generating BAI index file,
 > - Handling splicing events,
-> - Exporting edited BAM files to Allas.
+> - Exporting edited BAM files to the distant server.
 
-#### ⚙️ `2_HaplotypeCaller.py` (HPC array wrapper):
+#### ⚙️ `2_HaplotypeCaller.py` (HPC):
 > This script uses marked duplicates BAM files to run the complete pipeline for per-sample variant call by (in this order):
-> - Importing the BAM file from Allas
+> - Importing the BAM file from the distant server,
 > - Importing the reference genome and generate indexes,
 > - Generating BAI index file,
-> - Running GATK HaplotypeCaller. This task can take several hours,
-> - Exporting GVCF files to Allas.
+> - Running GATK HaplotypeCaller. **This task can take several hours**,
+> - Exporting GVCF files to the distant server.
 
-#### ⚙️ `3_JointCaller.py` (HPC run wrapper):
+#### ⚙️ `3_JointCaller.py` (HPC):
 > This script runs the complete pipeline for the join call by (in this order):
 > - Generating GenomicsDB database by:
 >   - Importing the list of samples,
->   - Importing all GVCFs from Allas,
->   - Importing the reference genome from Allas and compute index files,
+>   - Importing all GVCFs from the distant server,
+>   - Importing the reference genome from the distant server and compute index files,
 >   - Generating the sample map,
 >   - Generating the interval list,
 >   - Running GATK GenomicsDBImport,
@@ -217,7 +217,7 @@ Associated data folder(s): `./data/tribolium_vcf`.
 > - Performing the joint-call cohort by:
 >   - Importing the consolidated database from the scratch if needed,
 >   - Running GATK GenotypeGVCFs,
->   - Exporting the joint-call file (VCF) to the scratch.
+>   - Exporting the joint-call file (VCF) to a local server.
 
 #### ⚙️ `4_SelectFilterAnnotateVariants.py` (local):
 > This script selects bi-allelic SNP variants from the original VCF file by (in this order):
@@ -234,16 +234,16 @@ Associated data folder(s): `./data/tribolium_vcf`.
 flowchart TB
 subgraph HPC
 direction LR
-A[("Unedited<br/>BAMs")] --> B("1_BamPreProcessing.py<br/><em>(HPC array)</em>")
+A[("Unedited<br/>BAMs")] --> B("1_BamPreProcessing.py<br/>(HPC)")
 B --> C[("Edited<br/>BAMs")]
-C --> D("2_HaplotypeCaller.py<br/><em>(HPC array)</em>")
+C --> D("2_HaplotypeCaller.py<br/>(HPC)")
 D --> E[("GVCFs")]
-E --> F("3_JointCaller.py<br/><em>(HPC)</em>")
+E --> F("3_JointCaller.py<br/>(HPC)")
 F --> G[("VCF")]
 end
 subgraph local
 direction LR
-H("variant_detection_pipeline.sh<br/><em>(local)</em>") --> I[("bi-allelic SNPs<br/>VCF")]
+H("variant_detection_pipeline.sh<br/>(local)") --> I[("bi-allelic SNPs<br/>VCF")]
 end
 HPC --> |"Download<br/>VCF"| local
 ```
@@ -262,7 +262,7 @@ HPC --> |"Download<br/>VCF"| local
                 ├── VCF_imputed_genotypes_line_separation_pipeline.sh
                 └── VCF_CT_HD_G1_LepMAP3_pipeline.sh
 
-This task is a general function which separate population-level files (VCF or read counts) into sub-population files on user request.
+This task is a general function which splits population-level files (VCF or read counts) into sub-population files on user request.
 **This function is used in further tasks involving sub-population analyses**.
 
 Associated data folder(s): `./data/tribolium_snp`, `./data/tribolium_counts`.
@@ -290,9 +290,9 @@ Associated data folder(s): `./data/tribolium_snp`, `./data/tribolium_counts`.
 flowchart LR
 subgraph local
 direction LR
-A[("VCF")] --> B("1_SelectPopulation.py<br/><em>(local)</em>")
-B --> C("2_FilterGenotypes.py<br/><em>(local)</em>")
-C --> D("3_VariantsToTable.py<br/><em>(local)</em>")
+A[("VCF")] --> B("1_SelectPopulation.py<br/>(local)")
+B --> C("2_FilterGenotypes.py<br/>(local)")
+C --> D("3_VariantsToTable.py<br/>(local)")
 D --> E[("Sub-population<br/>VCF")]
 end
 ```
@@ -303,7 +303,7 @@ end
 flowchart LR
 subgraph local
 direction LR
-A[("Read<br/>counts")] --> B("1_SelectPopulation.py<br/><em>(local)</em>")
+A[("Read<br/>counts")] --> B("1_SelectPopulation.py<br/>(local)")
 B --> C[("Sub-population<br/>read<br/>counts")]
 end
 ```
@@ -340,12 +340,12 @@ Associated data folder(s): `./data/tribolium_snp`.
 flowchart LR
 subgraph "local (benchmark)"
 direction LR
-B("1_ExtractNoMissingMarkers.py<br/><em>(local)</em>") --> C("2_ImputationTests.py<br/><em>(local)</em>")
+B("1_ExtractNoMissingMarkers.py<br/>(local)") --> C("2_ImputationTests.py<br/>(local)")
 C --> D[("Imputation<br/>success rate")]
 end
 subgraph "local (main pipeline)"
 direction LR
-E("2_ImputeGenotypes.py<br/><em>(local)</em>") --> F[("Imputed<br/>VCF")]
+E("2_ImputeGenotypes.py<br/>(local)") --> F[("Imputed<br/>VCF")]
 end
 A[("VCF")] --> B
 A --> E
@@ -381,9 +381,9 @@ Associated data folder(s): `./data/tribolium_afc`.
 flowchart LR
 subgraph "local"
 direction LR
-A[("SNPs<br/>table")] --> B("1_MergeAFs.R<br/><em>(local)</em>")
-B --> C("2_ComputeAFCs.R<br/><em>(local)</em>")
-C --> D("3_SplitAFCs.R<br/><em>(local)</em>")
+A[("SNPs<br/>table")] --> B("1_MergeAFs.R<br/>(local)")
+B --> C("2_ComputeAFCs.R<br/>(local)")
+C --> D("3_SplitAFCs.R<br/>(local)")
 D --> E[("AFCs<br/>per line<br/>and environment")]
 end
 ```
@@ -405,20 +405,20 @@ This task handles BAM files (without marked duplicates) to perform a reads count
 
 Associated data folder(s): `./data/tribolium_counts`.
 
-#### ⚙️ `1_FeatureCounts.py` (HPC array wrapper):
+#### ⚙️ `1_FeatureCounts.py` (HPC):
 > This script calculates feature counts for every individual samples by (in this order):
 > - Importing `subread` package and compile it,
 > - Importing reference genome annotation,
 > - Importing the list of samples,
 > - For each BAM file, if the read counts file does not exist:
 >   - Running `subread FeatureCounts`,
->   - Exporting resulting files to Allas.
+>   - Exporting resulting files to the distant server.
 
-#### ⚙️ `2_MergeFeatureCounts.py` (HPC run wrapper):
+#### ⚙️ `2_MergeFeatureCounts.py` (HPC):
 > This script merges feature counts from every individual samples by (in this order):
 > - Importing the list of samples and all read counts,
 > - Mergeing read counts in a single file,
-> - Exporting the resulting file to Allas.
+> - Exporting the resulting file to the distant server.
 
 #### ⚙️ `3_TransformReadCounts.R` (local):
 > This script transforms a gene expression dataset by filtering it, calculating the TMM normalization, and removing run, batch and line effects.
@@ -435,16 +435,16 @@ Associated data folder(s): `./data/tribolium_counts`.
 flowchart TB
 subgraph HPC
 direction LR
-A[("BAMs")] --> B("1_FeatureCounts.py<br/><em>(HPC array)</em>")
+A[("BAMs")] --> B("1_FeatureCounts.py<br/>(HPC)")
 B --> C[("Per-sample<br/>read counts")]
-C --> D("2_MergeFeatureCounts.py<br/><em>(HPC array)</em>")
+C --> D("2_MergeFeatureCounts.py<br/>(HPC)")
 D --> E[("Global<br/>read counts")]
 end
 subgraph local
 direction LR
-F("3_TransformReadCounts.R<br/><em>(local)</em>") --> H[("Transformed<br/>read counts")]
-G("4_DetectLowExpressedTranscripts.R<br/><em>(local)</em>") --> I[("Expressed<br/>reads")]
-H --> J("5_StandardizeReadCounts.R<br/><em>(local)</em>")
+F("3_TransformReadCounts.R<br/>(local)") --> H[("Transformed<br/>read counts")]
+G("4_DetectLowExpressedTranscripts.R<br/>(local)") --> I[("Expressed<br/>reads")]
+H --> J("5_StandardizeReadCounts.R<br/>(local)")
 I --> J
 J --> K[("Standardized<br/>read counts")]
 end
