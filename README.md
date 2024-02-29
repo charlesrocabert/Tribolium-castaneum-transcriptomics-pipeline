@@ -351,7 +351,7 @@ A[("VCF")] --> B
 A --> E
 ```
 
-### 📂 Allelic frequencies changes (AFCs) <a name="scripts_5"></a>
+### 📂 Allelic frequency changes (AFCs) <a name="scripts_5"></a>
 
       └── scripts
            └── 5_AFCs
@@ -484,12 +484,12 @@ Associated data folder(s): `./data/tribolium_phenotypes`.
 flowchart LR
 subgraph "local"
 direction LR
-A[("read<br/>counts")] --> B("1_CopyExpressionFiles.sh<br/><em>(local)</em>")
-B --> C("2_ComputePlasticityResponse.R<br/><em>(local)</em>")
-B --> D("3_ComputePhenotypicNoise.R<br/><em>(local)</em>")
+A[("read<br/>counts")] --> B("1_CopyExpressionFiles.sh<br/>(local)")
+B --> C("2_ComputePlasticityResponse.R<br/>(local)")
+B --> D("3_ComputePhenotypicNoise.R<br/>(local)")
 C --> E[("Plastic response<br/>phenotypes")]
 D --> F[("V<sub>e</sub><br/>phenotypes")]
-G[("Fitness<br/>measurements")] --> H("4_ComputeRelativeFitness.R<br/><em>(local)</em>")
+G[("Fitness<br/>measurements")] --> H("4_ComputeRelativeFitness.R<br/>(local)")
 H --> I[("Relative<br/>fitnesses")]
 end
 ```
@@ -525,30 +525,30 @@ Associated data folder(s): `./data/tribolium_eqtl`.
 > Files are generated at once for all the phenotypes (expression, plasticity, noise and fitness). 
 
 #### ⚙️ `2_UploadGemmaFiles.py` (local):
-> This script exports all the input files (`.bed`, `.bim`, `.fam` and `.pheno`) to the distant storage server Allas.
+> This script exports all the input files (`.bed`, `.bim`, `.fam` and `.pheno`) to the distant storage server.
 
 #### ⚙️ `CheckGemmaFiles.py` (HPC maintenance script):
-> This maintenance script checks if GEMMA output files are missing after an array job.
+> This maintenance script checks if GEMMA output files are missing after a HPC job.
 
 #### ⚙️ `DeleteGemmaFiles.py` (HPC maintenance script):
 > This maintenance script delete GEMMA output files to prevent duplicates before a new run.
 
-#### ⚙️ `3_Gemma.py` (HPC array wrapper):
-> This script runs GWAAs on a given number of phenotypes (the max number of jobs being limited on Puhti) by (in this order):
-> - Importing GEMMA software and datasets from Allas,
+#### ⚙️ `3_Gemma.py` (HPC):
+> This script runs GWAAs on a given number of phenotypes by (in this order):
+> - Importing GEMMA software and datasets from the distant server,
 > - Calculating the kinship matrix,
 > - Running GEMMA on the right set of phenotypes,
 > - Converting the output to RDS format,
-> - Exporting resulting files to Allas.
+> - Exporting resulting files to the distant server.
 
 #### ⚙️ `4_CollectSignificantEQTLs.R` (HPC independent script):
-> This script collect significant eQTLs in a dedicated file saved in the scratch. Two steps are applied to filter significant eQTLs:
+> This script collect significant eQTLs in a dedicated file. Two steps are applied to filter significant eQTLs:
 > Collect all significant eQTL associations given a p-value threshold.
 > - Genomic correction is applied and the FDR is calculated,
 > - eQTLs with a p-value < 0.05 are selected.
 
 #### ⚙️ `5_DownloadGemmaFiles.py` (local):
-> This script downloads significant eQTL files from Allas, based on a list of phenotypes.
+> This script downloads significant eQTL files from the distant server, based on a list of phenotypes.
 
 #### ⚙️ `6_merge_eQTLs_pipeline.sh (local):
 > This pipeline collect and merge significant eQTLs with additional information such as gene position (`ExtractGenePos.py` script) and gene and phenotype annotations (`MergeEQTLsDatasets.R` script).
@@ -559,7 +559,7 @@ Associated data folder(s): `./data/tribolium_eqtl`.
 flowchart TB
 subgraph sg1["local (1)"]
 direction LR
-A[("Selected<br/>phenotypes")] --> B("1_eQTLs_data_preparation_pipeline.sh<br/><em>(local)</em>")
+A[("Selected<br/>phenotypes")] --> B("1_eQTLs_data_preparation_pipeline.sh<br/>(local)")
 C[("Reference<br/>genome")] --> B
 B --> D[(".bed")]
 B --> E[(".bim")]
@@ -568,12 +568,12 @@ B --> G[(".pheno")]
 end
 subgraph sg2["HPC"]
 direction LR
-H("3_Gemma.py<br/><em>(HPC array wrapper)</em>") --> I("4_CollectSignificantEQTLs.R<br/><em>(distant script)</em>")
+H("3_Gemma.py<br/>(HPC)") --> I("4_CollectSignificantEQTLs.R<br/>(HPC)")
 I --> J[("Significant<br/>eQTLs")]
 end
 subgraph sg3["local (2)"]
 direction LR
-K("6_merge_eQTLs_pipeline.sh<br/><em>(local)</em>") --> L[("Annotated<br/>significant<br/>eQTLs")]
+K("6_merge_eQTLs_pipeline.sh<br/>(local)") --> L[("Annotated<br/>significant<br/>eQTLs")]
 end
 sg1 --> |"Upload<br/>input files<br/>(2_UploadGemmaFiles.py)"| sg2
 sg2 --> |"Download<br/>output files<br/>(5_DownloadGemmaFiles.py)"| sg3
@@ -616,10 +616,10 @@ Associated data folder(s): `./data/tribolium_modules`.
 flowchart TB
 subgraph "local"
 direction LR
-A[("Phenotype")] --> B("1_ExploreModuleFitnessCorrelations.R<br/><em>(local)</em>")
-B --> C("2_PlotModuleExploration.R<br/><em>(local)</em>")
+A[("Phenotype")] --> B("1_ExploreModuleFitnessCorrelations.R<br/>(local)")
+B --> C("2_PlotModuleExploration.R<br/>(local)")
 C --> D[("Seleted<br/>threshold")]
-D --> E("3_ComputeModules.R<br/><em>(local)</em>")
+D --> E("3_ComputeModules.R<br/>(local)")
 A --> E
 E --> F[("WGCNA<br/>modules")]
 end
@@ -652,20 +652,19 @@ Associated data folder(s): `./data/tribolium_ase`.
 flowchart TB
 subgraph sg1["HPC"]
 direction LR
-A[("BAMs")] --> B("1_ASEReadCounter.py<br/><em>(HPC array wrapper)</em>")
-B --> C("2_DetectSignificantASE.R<br/><em>(HPC)</em>")
+A[("BAMs")] --> B("1_ASEReadCounter.py<br/>(HPC)")
+B --> C("2_DetectSignificantASE.R<br/>(HPC)")
 C --> D[("Significant<br/>ASEs")]
 end
 subgraph sg2["local"]
 direction LR
-E("3_SummarizeASEData.R<br/><em>(HPC array wrapper)</em>") --> F[("Summarized<br/>ASEs")]
+E("3_SummarizeASEData.R<br/>(HPC)") --> F[("Summarized<br/>ASEs")]
 end
 sg1 --> |"Download<br/>ASEs"| sg2
 ```
 
 ### 📂 LD map with Lep-MAP3 <a name="scripts_11"></a>
 This task calculates a genetic map (or LD map) using Lep-MAP3 software. The pipeline is complex and will not be described here.
-**Please consult the PDF report available in the folder `./doc/Lep-MAP3 report` for a detailed description of the pipeline**.
 
 ### 📂 Haplotype blocks <a name="scripts_12"></a>
 
@@ -686,15 +685,10 @@ Associated data folder(s): `./data/tribolium_ld`.
 flowchart TB
 subgraph sg2["local"]
 direction LR
-A[("Genetic<br/>map")] --> B("1_ExtractHaplotypeBlocks.R<br/><em>(local)</em>")
+A[("Genetic<br/>map")] --> B("1_ExtractHaplotypeBlocks.R<br/>(local)")
 B --> C[("Haplotype<br/>blocks")]
 end
 ```
-
-### 📂 FST clusters <a name="scripts_13"></a>
-➡️ Work in progress ⬅️
-
-Associated data folder(s): `./data/tribolium_diversity`.
 
 ## Analyses <a name="analyses"></a>
 Analysis pipelines are related to manuscripts under preparation and will be described here later.
