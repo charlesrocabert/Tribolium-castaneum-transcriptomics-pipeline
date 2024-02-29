@@ -1,0 +1,20 @@
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R L1_shift sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R L2_shift sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R L3_shift sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R L5_shift sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R L6_shift sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R Mx1_shift sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R Mx2_shift sum 10000 50
+
+sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R significant_sg_pool sum 10000 50
+sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R highest_sg_pool sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R significant_de_pool sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R highest_de_pool sum 10000 50
+
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R eQTL_carrier sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R eQTL_phenotype sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R hub_gene sum 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R is_ASE sum 10000 50
+
+sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R log_net_selection mean 10000 50
+> sbatch --array=1-99 R_array_wrapper.sh haplotype_block_permutation_test.R abs_logFC mean 10000 50

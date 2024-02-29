@@ -1,0 +1,26 @@
+SNPs DATASET:
+========================================
+Step 1 (collect SNPs):
+----------------------
+> nb genes = 11487 (358142 SNPs)
+> nb Sg genes = 70 (2245 SNPs)
+> nb hub genes = 259 (13110 SNPs)
+
+========================================
+Step 2 (merge info):
+--------------------
+> nb genes = 11216 (356193 SNPs)
+> nb Sg genes = 70 (2245 SNPs)
+> nb hub genes = 259 (13110 SNPs)
+
+
+GENEs DATASET:
+========================================
+> nb Sg genes = 70
+> nb hub genes = 259
+
+eQTLs DATASET:
+========================================
+> nb Sg genes = 70
+> nb hub genes = 259
+

@@ -1,0 +1,11 @@
+sbatch --array=1 python_array_wrapper.sh 3_Gemma.py -bucket ecoevodyn_tribolium_tcas3_30 -dataset CT_G1_Tcas3.30_imputed_FITNESS -nb-phenotypes 1 -missing 0.5
+
+sbatch --array=1 python_array_wrapper.sh 3_Gemma.py -bucket ecoevodyn_tribolium_tcas3_30 -dataset HD_G1_Tcas3.30_imputed_FITNESS -nb-phenotypes 1 -missing 0.5
+
+sbatch --array=1-237 python_array_wrapper.sh 3_Gemma.py -bucket ecoevodyn_tribolium_tcas3_30 -dataset CT_G1_Tcas3.30_imputed_EXPRESSION -nb-phenotypes 50 -missing 0.5
+
+sbatch --array=1-238 python_array_wrapper.sh 3_Gemma.py -bucket ecoevodyn_tribolium_tcas3_30 -dataset HD_G1_Tcas3.30_imputed_EXPRESSION -nb-phenotypes 50 -missing 0.5
+
+sbatch --array=1-241 python_array_wrapper.sh 3_Gemma.py -bucket ecoevodyn_tribolium_tcas3_30 -dataset HD_G1_Tcas3.30_imputed_PLASTICITY -nb-phenotypes 50 -missing 0.5
+
+sbatch --array=1-238 python_array_wrapper.sh 3_Gemma.py -bucket ecoevodyn_tribolium_tcas3_30 -dataset HD_G1_Tcas3.30_imputed_NOISE -nb-phenotypes 50 -missing 0.5
