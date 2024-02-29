@@ -47,11 +47,11 @@ Charles Rocabert, Eva L. Koch, Frédéric Guillaume.
 
 # Copyright <a name="copyright"></a>
 
-Copyright © 2021-2023 Charles Rocabert, Eva L. Koch, Frédéric Guillaume. All rights reserved.
+Copyright © 2021-2024 Charles Rocabert, Eva L. Koch, Frédéric Guillaume. All rights reserved.
 
 # Publications <a name="publications"></a>
 
-• Eva L. Koch, Charles Rocabert, Frédéric Guillaume, in prep.
+• Eva L. Koch, Charles Rocabert, Frédéric Guillaume, <em>in prep</em>.
 
 • Charles Rocabert, Eval L. Koch, Frédéric Guillaume. Deciphering the genetic architecture of polygenic adaptation in Tribolium castaneum. <em>ESEB 2022: Congress of the European Society for Evolutionary Biology</em> (Aug. 2022, Prague, Czech Republic)
 
@@ -94,10 +94,10 @@ Copyright © 2021-2023 Charles Rocabert, Eva L. Koch, Frédéric Guillaume. All 
       ├── data
       └── README.md
 
-The pipeline is splitted in three categories:
-- `scripts`: This folder contains all the specific omics tasks to build the data that will be used for further, higher-level analyses. This includes _e.g._ variants detection, eQTLs analysis, ASE, etc.
+The pipeline is splitted in three main folders:
+- `scripts`: This folder contains all the specific -omics tasks to build the data that will be used for higher-level analyses. This includes _e.g._ variants detection, eQTLs analysis, ASE, etc.
 - `analyses`: This folder contains higher-level analyses. This include _e.g._ the detection of signals of selection by interesecting gene expression and allele frequency datasets.
-- `data`: This folder contains all the data produced by the pipeline. This folder is **not included** in this repository. A download link will be provided in the future.
+- `data`: This folder contains all the data produced by the pipeline. This folder is **not included** in the repository. A download link will be provided in the future.
 
 The pipeline is described in details below.
 
@@ -119,17 +119,17 @@ The pipeline is described in details below.
            ├── 12_haplotype_blocks
            └── 13_Fst_clusters
 
-Omics tasks are numbered and separated into folders for the purpose of clarity.
-For each task, the scripts are globally numbered in the order of their execution, and are split between local (`local` folder) and HPC (`hpc` folder scripts).
+-Omics tasks are separated into folders and numbered for clarity.
+For each task, the scripts are also numbered in the order of their execution, and are split between local (`local` folder) and HPC (`hpc` folder).
 
-Sometimes, a shell script is also available to run all **local scripts** in the right order (see below). For HPC scripts, the user must update and deploy Puhti scripts (`./scripts/0_puhti_scripts`, see below).
+Sometimes, a shell script is also available to run all **local scripts** in the right order (see below). HPC scripts are designed for the CSC computing farm. The user must update the code before deployment on a computer farm.
     
-### 📂 Puhti scripts <a name="scripts_0"></a>
+### 📂 CSC scripts <a name="scripts_0"></a>
 
       └── scripts
            └── 0_Puhti_scripts
 
-This folder contains various scripts and wrappers to deploy Python or R tasks on Puhti (single jobs or array jobs), and connect to Allas.
+This folder contains various scripts and wrappers to deploy Python or R tasks on the CSC server Puhti (single jobs or array jobs), and connect to the CSC storage server Allas.
 
 ⚠️ **User and project names must be updated before usage**.
 
