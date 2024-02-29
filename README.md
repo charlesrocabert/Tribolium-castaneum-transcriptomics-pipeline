@@ -14,7 +14,6 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 # Table of contents
 - [Overview](#overview)
 - [Authors](#authors)
-- [Copyright](#copyright)
 - [Publications](#publications)
 - [Dependencies](#dependencies)
 - [Description of the pipeline](#pipeline_description)
@@ -34,6 +33,7 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
     - [FST clusters](#scripts_13)
   - [Analyses](#analyses)
   - [Data](#data)
+- [Copyright](#copyright)
 - [License](#license)
 
 # Overview
@@ -42,11 +42,9 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 
 # Authors <a name="authors"></a>
 
-Charles Rocabert, Eva L. Koch, Frédéric Guillaume.
-
-# Copyright <a name="copyright"></a>
-
-Copyright © 2021-2024 Charles Rocabert, Eva L. Koch, Frédéric Guillaume. All rights reserved.
+- Charles Rocabert
+- Eva L. Koch
+- Frédéric Guillaume
 
 # Publications <a name="publications"></a>
 
@@ -713,6 +711,14 @@ Analysis pipelines are related to manuscripts under preparation and will be desc
            ├── tribolium_snp: contains VCF files containing bi-allelic variant SNPs
            └── tribolium_vcf: contains the raw VCF file obtained from the variant call
 
+# Copyright <a name="copyright"></a>
+
+Copyright © 2021-2024 Charles Rocabert, Eva L. Koch, Frédéric Guillaume. All rights reserved.
+
 # License <a name="license"></a>
-➡️ License agreement to be displayed here ⬅️
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
