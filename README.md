@@ -19,7 +19,6 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 - [Dependencies](#dependencies)
 - [Description of the pipeline](#pipeline_description)
   - [Scripts](#scripts)
-    - [Puhti scripts](#scripts_0)
     - [Reorganizing BAM files](#scripts_1)
     - [Variants detection](#scripts_2)
     - [Selecting populations](#scripts_3)
@@ -104,7 +103,6 @@ The pipeline is described in details below.
 ## Scripts <a name="scripts"></a>
 
       └── scripts
-           ├── 0_Puhti_scripts
            ├── 1_BAM_files_reorganization
            ├── 2_variant_call
            ├── 3_select_population
@@ -123,25 +121,6 @@ The pipeline is described in details below.
 For each task, the scripts are also numbered in the order of their execution, and are split between local (`local` folder) and HPC (`hpc` folder).
 
 Sometimes, a shell script is also available to run all **local scripts** in the right order (see below). HPC scripts are designed for the CSC computing farm. The user must update the code before deployment on a computer farm.
-    
-### 📂 CSC scripts <a name="scripts_0"></a>
-
-      └── scripts
-           └── 0_Puhti_scripts
-
-This folder contains various scripts and wrappers to deploy Python or R tasks on the CSC server Puhti (single jobs or array jobs), and connect to the CSC storage server Allas.
-
-⚠️ **User and project names must be updated before usage**.
-
-```mermaid
-flowchart LR
-A("Single job task") --> B[["Run wrapper"]]
-```
-
-```mermaid
-flowchart LR
-A("Parallel jobs task") --> B[["Array wrapper"]]
-```
 
 ### 📂 Reorganizing BAM files <a name="scripts_1"></a>
 
@@ -153,7 +132,7 @@ A("Parallel jobs task") --> B[["Array wrapper"]]
                      ├── 3_CheckBamReadgroups.py
                      └── 4_RelocateBamFiles.py
 
-The goal of this task is to parse the original source of BAM files (here a hard-drive) to rationalize their organization, make some adjustements and extract information.
+The objective here is to parse the original BAM files source, re-organize them, make some adjustements and extract information.
 
 Associated data folder(s): `./data/tribolium_bam`.
 
@@ -165,11 +144,11 @@ Associated data folder(s): `./data/tribolium_bam`.
 **Sample files will be used all along the pipeline**.
 
 #### ⚙️ `3_CheckBamReadgroups.py (local)`:
-> This script parses every BAM files to check the absence of the "read group" entry ("RG" label), which is mandatory for further analyses (will be added later).
+> This script parses every BAM files to check the absence of the "read group" entry ("RG" label).
 
 #### ⚙️ `4_RelocateBamFiles.py (local)`:
-> This script relocates BAM files from the original hard-drive for further analysis (:warning: needs debugging).
-> **Ultimately, BAM files are transfered to Allas with an independent script**.
+> This script relocates BAM files from the original hard-drive for further analysis.
+> **Ultimately, BAM files are transfered to a distant server with an independent script**.
 
 ```mermaid
 flowchart LR
