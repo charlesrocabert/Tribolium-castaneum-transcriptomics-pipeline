@@ -1,15 +1,15 @@
 <h1 align="center"><em>Tribolium castaneum</em> transcriptomics pipeline</h1>
-<h3 align="center">ECOEVODYN GROUP VERSION (PRIVATE REPOSITORY)</h3>
+<h3 align="center">PUBLIC VERSION</h3>
 <p align="center">
-<img src="https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation/assets/25666459/0536e2b9-67b2-4e8a-9227-a8ca3354eb63">
+<img src="https://github.com/charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline/assets/25666459/36dac25b-2ea5-434f-b7bd-55b34bb00f76">
 <br/>
 </p>
 
-This repository contains the transcriptomics pipeline I developed during my postdoc in the [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics), from Sept. 2021 to Dec. 2022. It deals with various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
+This repository contains the transcriptomics pipeline I developed during my stay in Prof. Frédéric Guillaume's [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics), from Sept. 2021 to Dec. 2022. The pipeline deals with various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
 
-The pipeline is described here for publication and educational purposes.
+The pipeline is described in detail below for publication and educational purposes.
 
-Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">contact me</a> for any remarks/questions.
+Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me</a> for any question.
 
 # Table of contents
 - [Overview](#overview)
