@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_UploadGemmaFiles.py
 # ---------------------
@@ -22,6 +22,7 @@ import swiftclient
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Path to the repository")
     parser.add_argument("--user", "-user", help="Allas user name")
     parser.add_argument("--password", "-password", help="Allas password")
     parser.add_argument("--project", "-project", help="Allas project")
@@ -71,26 +72,12 @@ def put_on_allas( allas_connection, bucket, filename ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 2_UploadGemmaFiles.py")
-    print("# ---------------------")
-    print("# Upload gemma input files to a distant server.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Connect to Allas             #
@@ -102,10 +89,10 @@ if __name__ == '__main__':
     # 3) Export input files to Allas  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Export input files to Allas")
-    ENVIRONMENT    = ["CT", "HD"]
-    IMPUTATION     = ["_imputed"]#, ""]
-    PHENOTYPE      = ["EXPRESSION", "PLASTICITY", "FITNESS", "NOISE"]
-    EXTENSION      = ["bed", "bim", "fam", "pheno"]
+    ENVIRONMENT = ["CT", "HD"]
+    IMPUTATION  = ["_imputed"]
+    PHENOTYPE   = ["EXPRESSION", "PLASTICITY", "FITNESS", "NOISE"]
+    EXTENSION   = ["bed", "bim", "fam", "pheno"]
     for env in ENVIRONMENT:
         for imp in IMPUTATION:
             for phe in PHENOTYPE:

@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 4_CollectSignificantEQTLs.R
 # ---------------------------
@@ -73,7 +73,7 @@ setwd(PATH)
 #--------------------------------#
 # 2) Load the list of phenotypes #
 #--------------------------------#
-PHENOTYPES = read.table(paste0("/scratch/project_2003847/Tribolium-Polygenic-Adaptation/data/tribolium_eqtl/gemma/",DATASET,".pheno"), h=F, check.names=F)[,1]
+PHENOTYPES = read.table(paste0("/scratch/project_XXXXXXX/Tribolium-Polygenic-Adaptation/data/tribolium_eqtl/gemma/",DATASET,".pheno"), h=F, check.names=F)[,1]
 N          = length(PHENOTYPES)
 
 #--------------------------------#
@@ -88,7 +88,7 @@ for(i in 1:N)
   {
     print(paste0(">>> Deal with phenotype ",pheno_name," (",i,"/",N,"). Nb collected = ",length(COLLECTED_PHENOTYPE)))
   }
-  file                = paste0("/scratch/project_2003847/Tribolium_castaneum_eQTL/rds/",DATASET,"_",pheno_name,".rds")
+  file                = paste0("/scratch/project_XXXXXXX/Tribolium_castaneum_eQTL/rds/",DATASET,"_",pheno_name,".rds")
   d                   = readRDS(file)
   d                   = d[!is.na(d$p_wald),]
   d$gc                = calculate_gc(d$p_wald)
@@ -103,11 +103,11 @@ COLLECTED_EQTL$phenotype = COLLECTED_PHENOTYPE
 #--------------------------------#
 # 4) Save resulting datasets     #
 #--------------------------------#
-fileRDS = paste0("/scratch/project_2003847/Tribolium_castaneum_eQTL/",DATASET,"_significant.rds")
+fileRDS = paste0("/scratch/project_XXXXXXX/Tribolium_castaneum_eQTL/",DATASET,"_significant.rds")
 upload_to_allas(fileRDS, "ecoevodyn_tribolium_tcas3_30")
 saveRDS(COLLECTED_EQTL, file=fileRDS)
 
-fileCSV = paste0("/scratch/project_2003847/Tribolium_castaneum_eQTL/",DATASET,"_significant.csv")
+fileCSV = paste0("/scratch/project_XXXXXXX/Tribolium_castaneum_eQTL/",DATASET,"_significant.csv")
 upload_to_allas(fileCSV, "ecoevodyn_tribolium_tcas3_30")
 write.table(COLLECTED_EQTL, file=fileCSV, row.names=F, col.names=T, quote=F, sep="\t")
 

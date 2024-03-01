@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 5_DownloadGemmaFiles.py
 # -----------------------
@@ -23,6 +23,7 @@ import paramiko
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Path to the repository")
     parser.add_argument("--user", "-user", help="Puhti user name")
     parser.add_argument("--password", "-password", help="Puhti password")
     parser.add_argument("--dataset", "-dataset", help="Dataset name")
@@ -66,26 +67,12 @@ def file_already_exists( filename ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 5_DownloadGemmaFiles.py")
-    print("# -----------------------")
-    print("# Download Gemma association files from a distant server.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments           #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Load the list of phenotypes            #
@@ -105,8 +92,8 @@ if __name__ == '__main__':
     print(">> Download significant eQTL associations")
     rds_filename = config["dataset"]+"_significant.rds"
     csv_filename = config["dataset"]+"_significant.csv"
-    puhti.get("/scratch/project_2003847/Tribolium_castaneum_eQTL/"+rds_filename, "./data/tribolium_eqtl/significant/"+rds_filename)
-    puhti.get("/scratch/project_2003847/Tribolium_castaneum_eQTL/"+csv_filename, "./data/tribolium_eqtl/significant/"+csv_filename)
+    puhti.get("/scratch/project_XXXXXXX/Tribolium_castaneum_eQTL/"+rds_filename, "./data/tribolium_eqtl/significant/"+rds_filename)
+    puhti.get("/scratch/project_XXXXXXX/Tribolium_castaneum_eQTL/"+csv_filename, "./data/tribolium_eqtl/significant/"+csv_filename)
 
     puhti.close()
 

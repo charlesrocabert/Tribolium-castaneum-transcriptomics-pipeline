@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 3_Gemma.py
 # ----------
@@ -135,8 +135,7 @@ def convert_to_rds( bucket, dataset, pheno_name, local_path ):
 ### Export resulting files ###
 def export_files( bucket, dataset, pheno_name ):
     rds_file   = dataset+"_"+pheno_name+".rds"
-    os.system("cp output/"+rds_file+" /scratch/project_2003847/Tribolium_castaneum_eQTL/rds/"+rds_file)
-    #os.system("rclone copyto output/"+rds_file+" allas:"+bucket+"/eqtl/rds/"+rds_file)
+    os.system("cp output/"+rds_file+" /scratch/project_XXXXXXX/Tribolium_castaneum_eQTL/rds/"+rds_file)
 
 
 ##################
@@ -144,25 +143,6 @@ def export_files( bucket, dataset, pheno_name ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 3_Gemma.py")
-    print("# ----------")
-    print("# Run GEMMA for a given set of phenotypes.")
-    print("# (HPC SCRIPT --> array wrapper)")
-    print("#")
-    print("# 1) GEMMA association:")
-    print("#   1.1) Import GEMMA and datasets from Allas,")
-    print("#   1.2) Calculate kinship matrix,")
-    print("#   1.3) Run GEMMA on the right set of phenotypes,")
-    print("#   1.4) Convert the output to RDS format,")
-    print("#   1.5) Export resulting files to Allas.")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # CheckGemmaFiles.py
 # ------------------
@@ -53,7 +53,7 @@ def load_phenotypes( dataset ):
 
 ### Check if the GEMMA file has been created ###
 def GEMMA_file_exists( dataset, pheno_name ):
-    return os.path.exists("/scratch/project_2003847/Tribolium_castaneum_eQTL/rds/"+dataset+"_"+pheno_name+".rds")
+    return os.path.exists("/scratch/project_XXXXXXX/Tribolium_castaneum_eQTL/rds/"+dataset+"_"+pheno_name+".rds")
 
 
 ##################
@@ -61,18 +61,6 @@ def GEMMA_file_exists( dataset, pheno_name ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# CheckGemmaFiles.py")
-    print("# ------------------")
-    print("# Check if GEMMA files have been properly created.")
-    print("# (HPC SCRIPT --> run wrapper)")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments           #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
