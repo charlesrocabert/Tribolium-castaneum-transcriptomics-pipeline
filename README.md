@@ -1,11 +1,11 @@
-<h1 align="center"><em>Tribolium castaneum</em> transcriptomics pipeline</h1>
+<h1 align="center"><em>Tribolium castaneum</em> integrative-omics pipeline</h1>
 <h3 align="center">PUBLIC VERSION</h3>
 <p align="center">
 <img src="https://github.com/charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline/assets/25666459/36dac25b-2ea5-434f-b7bd-55b34bb00f76">
 <br/>
 </p>
 
-This repository contains the transcriptomics pipeline that I developed during my stay with Prof. Frédéric Guillaume's [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics), from Sept. 2021 to Dec. 2022. The pipeline addresses various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
+This repository contains the integrative-omics pipeline that I developed during my stay with Prof. Frédéric Guillaume's [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics), from Sept. 2021 to Dec. 2022. The pipeline addresses various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
 
 The pipeline was first designed to be deployed on the [CSC computing farm](https://www.csc.fi/en/). **Some CSC-specific code has been retained in the public version for integrity and publication purposes** (mostly in HPC scripts).
 
@@ -40,7 +40,7 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 
 # Introduction
 
-The objective of this pipeline is to associate signals of selection at the genomic and gene expression levels. The originality of this approach is to both detect allele frequency changes (AFCs) and gene expression changes through generations, using the same individual-level RNA-seq dataset. Recent studies have demonstrated the possibility to detect SNPs from RNA-seq data, assuming that only expressed regions of the genome are available. The approach covers a vast amount of methodologies, including variants call, the calculation of AFCs and the genetic map, read counts or the detection of gene expression modules.
+The objective of this pipeline is to integrate the detection of signals of selection at multiple levels of the genotype-to-phenotype map. The originality of this approach is to both detect allele frequency changes (AFCs) and gene expression changes through generations, using the same individual-level RNA-seq dataset. Recent studies have demonstrated the possibility to detect SNPs from RNA-seq data, assuming that only expressed regions of the genome are available. The approach covers a vast amount of methodologies, including variants call, the calculation of AFCs and the genetic map, read counts or the detection of gene expression modules.
 
 The pipeline is described in detail below.
 
