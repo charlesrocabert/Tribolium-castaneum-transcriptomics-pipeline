@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 4_ResetAdditionalLinkageGroups.py
 # ---------------------------------
@@ -21,6 +21,7 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--in-map", "-in-map", help="Input map suffix")
@@ -76,27 +77,13 @@ def reset_additional_linkage_groups( population, version, in_map, out_map, LGs_t
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 4_ResetAdditionalLinkageGroups.py")
-    print("# ---------------------------------")
-    print("# Reset additional linkage groups to zero.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
-
+    os.chdir(config["repository_path"])
+    
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Clean linkage groups map file #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

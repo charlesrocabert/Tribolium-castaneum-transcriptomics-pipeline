@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_RunParentCallFiltering.py
 # ---------------------------
@@ -21,6 +21,8 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
+    parser.add_argument("--lepmap3", "-lepmap3", help="LepMap3 path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--suffix", "-suffix", help="Suffix")
@@ -93,27 +95,12 @@ def run_LepMAP3_Filtering2( lepmap3_path, population, version, parameters ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 2_RunParentCallFiltering.py")
-    print("# ---------------------------")
-    print("# Run Lep-MAP3 ParentCall2 and Filtering2 functions.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH      = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    LEPMAP3_PATH = "/Users/charlesrocabert/Lep-MAP3/bin"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Load mapping parameters      #
@@ -125,13 +112,13 @@ if __name__ == '__main__':
     # 3) Parent call                  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parent call")
-    run_LepMAP3_ParentCall2(LEPMAP3_PATH, config["population"], config["version"], config["suffix"], parameters)
+    run_LepMAP3_ParentCall2(config["lepmap3"], config["population"], config["version"], config["suffix"], parameters)
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 4) Filtering                    #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Filtering")
-    run_LepMAP3_Filtering2(LEPMAP3_PATH, config["population"], config["version"], parameters)
+    run_LepMAP3_Filtering2(config["lepmap3"], config["population"], config["version"], parameters)
 
     print(">> Done.")
 

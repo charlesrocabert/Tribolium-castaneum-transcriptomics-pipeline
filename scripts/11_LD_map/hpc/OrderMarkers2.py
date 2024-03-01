@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # OrderMarkers2.py
 # ----------------
@@ -21,6 +21,8 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--scratch", "-scratch", help="Scratch path")
+    parser.add_argument("--lepmap3", "-lepmap3", help="Lep-MAP3 path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--in-pcall", "-in-pcall", help="Input parent call suffix")
@@ -99,20 +101,6 @@ def run_LepMAP3_OrderMarkers2( scratch_path, lepmap3_path, population, version, 
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# OrderMarkers2.py")
-    print("# ----------------")
-    print("# Run Lep-MAP3 OrderMarkers2 on Puhti.")
-    print("# (HPC SCRIPT --> run wrapper)")
-    print("#***************************************************************************")
-    print("")
-
-    SCRATCH_PATH = "/scratch/project_2003847/Tribolium_castaneum_ldMAP"
-    LEPMAP3_PATH = "/scratch/project_2003847/Tribolium_castaneum_ldMAP/Lep-MAP3/bin"
     os.chdir(os.environ['DATADIR'])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -125,7 +113,7 @@ if __name__ == '__main__':
     # 2) Import the dataset           #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Import datasets")
-    import_datasets(SCRATCH_PATH, config["population"], config["version"], config["in_pcall"], config["in_map"])
+    import_datasets(config["scratch"], config["population"], config["version"], config["in_pcall"], config["in_map"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 3) Load mapping parameters      #
@@ -137,7 +125,7 @@ if __name__ == '__main__':
     # 4) Order markers                #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Order markers")
-    run_LepMAP3_OrderMarkers2(SCRATCH_PATH, LEPMAP3_PATH, config["population"], config["version"], config["in_pcall"], config["in_map"], config["out_map"], config["chr"], parameters)
+    run_LepMAP3_OrderMarkers2(config["scratch"], config["lepmap3"], config["population"], config["version"], config["in_pcall"], config["in_map"], config["out_map"], config["chr"], parameters)
 
     print(">> Done.")
 

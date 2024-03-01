@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 5_RunJoinSingles2All.py
 # -----------------------
@@ -21,6 +21,8 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
+    parser.add_argument("--lepmap3", "-lepmap3", help="LepMap3 path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--in-pcall", "-in-pcall", help="Input parent call suffix")
@@ -83,27 +85,12 @@ def run_LepMAP3_JoinSingles2All( lepmap3_path, population, version, in_map, out_
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 5_RunJoinSingles2All.py")
-    print("# -----------------------")
-    print("# Run Lep-MAP3 JoinSingles2All.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH      = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    LEPMAP3_PATH = "/Users/charlesrocabert/Lep-MAP3/bin"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments     #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Load mapping parameters          #
@@ -115,7 +102,7 @@ if __name__ == '__main__':
     # 3) Join single markers to LD groups #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Join single markers to LD groups")
-    run_LepMAP3_JoinSingles2All(LEPMAP3_PATH, config["population"], config["version"], config["in_map"], config["out_map"], parameters)
+    run_LepMAP3_JoinSingles2All(config["lepmap3"], config["population"], config["version"], config["in_map"], config["out_map"], parameters)
 
     print(">> Done.")
 

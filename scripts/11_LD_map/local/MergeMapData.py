@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # MergeMapData.py
 # ---------------
@@ -21,6 +21,7 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
     parser.add_argument("--pcall", "-pcall", help="Parent call filename")
     parser.add_argument("--map", "-map", help="Map filename")
     parser.add_argument("--output", "-output", help="Output filename")
@@ -98,26 +99,12 @@ def merge_map_data( pcall_filename, map_filename, output_filename ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# MergeMapData.py")
-    print("# ---------------")
-    print("# Merge map data (map + positions).")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Merge map data               #

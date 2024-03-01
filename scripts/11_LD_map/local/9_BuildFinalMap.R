@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 9_BuildFinalMap.R
 # -----------------
@@ -50,26 +50,21 @@ plot_marey_map_cut <- function( dataset, cut_thresholds, chromosome )
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation/")
-
 #---------------------------------------#
 # 1) Read command line arguments        #
 #---------------------------------------#
-# args = commandArgs(trailingOnly=TRUE)
-# if (length(args)<5)
-# {
-#   stop("Please provide all command line arguments. Exit.", call.=FALSE)
-# }
-# POPULATION    = args[1]
-# VERSION       = args[2]
-# SUFFIX        = args[3]
-# NUMBER_OF_LGS = as.numeric(args[4])
-# THRESHOLD     = as.numeric(args[5])
-
-POPULATION    = "CT_HD_G1"
-VERSION       = "Tcas3.30"
-SUFFIX        = "final_map"
-NUMBER_OF_LGS = 10
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<6)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+POPULATION      = args[2]
+VERSION         = args[3]
+SUFFIX          = args[4]
+NUMBER_OF_LGS   = as.numeric(args[5])
+THRESHOLD       = as.numeric(args[6])
+setwd(REPOSITORY_PATH)
 
 #---------------------------------------#
 # 1) Define manual thresholds to cut    #
