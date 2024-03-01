@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 3_SplitAFCs.R
 # -------------
@@ -208,19 +208,28 @@ pivot_AFC_HD_table <- function( AFC_HD, transform_AFCs )
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation/")
+#--------------------------------#
+# 1) Read command line arguments #
+#--------------------------------#
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<1)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+setwd(REPOSITORY_PATH)
 
-#------------------------#
-# 1) Load the AFC values #
-#------------------------#
+#--------------------------------#
+# 2) Load the AFC values         #
+#--------------------------------#
 AFC_CT       = readRDS("./data/tribolium_afc/AFC_CT.rds")
 AFC_HD       = readRDS("./data/tribolium_afc/AFC_HD.rds")
 AFC_CT_TABLE = pivot_AFC_CT_table(AFC_CT, FALSE)
 AFC_HD_TABLE = pivot_AFC_HD_table(AFC_HD, FALSE)
 
-#------------------------#
-# 2) Save the dataset    #
-#------------------------#
+#--------------------------------#
+# 3) Save the dataset            #
+#--------------------------------#
 saveRDS(AFC_CT_TABLE$L1_AFC_abs, "./data/tribolium_afc/vectors/AFC_CT_L1.rds")
 saveRDS(AFC_CT_TABLE$L3_AFC_abs, "./data/tribolium_afc/vectors/AFC_CT_L3.rds")
 saveRDS(AFC_CT_TABLE$L5_AFC_abs, "./data/tribolium_afc/vectors/AFC_CT_L5.rds")

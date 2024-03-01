@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_MergeAFs.R
 # ------------
@@ -55,12 +55,23 @@ merge_allele_frequencies <- function( environment )
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation/")
+#--------------------------------#
+# 1) Read command line arguments #
+#--------------------------------#
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<1)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+setwd(REPOSITORY_PATH)
 
+#--------------------------------#
+# 2) Compute allele frequencies  #
+#--------------------------------#
 for (env in c("CT", "HD"))
 {
   AF = merge_allele_frequencies(env)
   saveRDS(AF, file=paste0("./data/tribolium_afc/AF_",env,".rds"))
-  #write.table(AF, file=paste0("./data/tribolium_afc/AF_",env,".csv"), sep=";", row.names=F, col.names=T, quote=F)
 }
 
