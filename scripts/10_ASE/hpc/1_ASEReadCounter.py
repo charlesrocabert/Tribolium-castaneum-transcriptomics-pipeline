@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_ASEReadCounter.py
 # -------------------
@@ -40,7 +40,7 @@ def assert_deletion( filename ):
 ### Import VCF file ###
 def import_sample_list( population, version ):
     filename = "samples_"+population+"_"+version+".csv"
-    os.system("cp /scratch/project_2003847/Tribolium-Polygenic-Adaptation/data/tribolium_bam/"+filename+" .")
+    os.system("cp /scratch/project_XXXXXXX/Tribolium-Polygenic-Adaptation/data/tribolium_bam/"+filename+" .")
     assert_creation(filename)
 
 ### Load the list of samples ###
@@ -72,7 +72,7 @@ def create_bam_index( sample_name ):
 ### Import VCF file ###
 def import_VCF( population, version, suffix ):
     filename = "Tribolium_castaneum_"+population+"_"+version+"_"+suffix+".vcf.gz"
-    os.system("cp /scratch/project_2003847/Tribolium-Polygenic-Adaptation/data/tribolium_snp/"+filename+" .")
+    os.system("cp /scratch/project_XXXXXXX/Tribolium-Polygenic-Adaptation/data/tribolium_snp/"+filename+" .")
     assert_creation(filename)
 
 ### Create the VCF index file ###
@@ -88,7 +88,7 @@ def create_VCF_index( population, version, suffix ):
 ### Import reference genome ###
 def import_reference_genome( version ):
     filename = "Tribolium_castaneum_"+version+".fna"
-    os.system("cp /scratch/project_2003847/Tribolium-Polygenic-Adaptation/data/tribolium_genome/Tribolium_castaneum_"+version+"/"+filename+" .")
+    os.system("cp /scratch/project_XXXXXXX/Tribolium-Polygenic-Adaptation/data/tribolium_genome/Tribolium_castaneum_"+version+"/"+filename+" .")
     assert_creation(filename)
 
 ### Create reference genome indices ###
@@ -117,7 +117,7 @@ def run_GATK_ASEReadCounter( population, version, suffix, sample_name ):
 ### Export count table to Allas ###
 def export_table( population, version, suffix, sample_name ):
     output_file = population+"_"+version+"_"+suffix+"_"+sample_name+".table"
-    os.system("cp "+output_file+" /scratch/project_2003847/Tribolium_castaneum_ASE/tables/"+output_file)
+    os.system("cp "+output_file+" /scratch/project_XXXXXXX/Tribolium_castaneum_ASE/tables/"+output_file)
 
 
 ##################
@@ -125,18 +125,6 @@ def export_table( population, version, suffix, sample_name ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 1_ASEReadCounter.py")
-    print("# -------------------")
-    print("# Run GATK ASEReadCounter for a given sample.")
-    print("# (HPC SCRIPT --> array wrapper)")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments                  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

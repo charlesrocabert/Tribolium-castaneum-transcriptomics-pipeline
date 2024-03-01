@@ -1,1 +1,0 @@
-sbatch --array=1-242 python_array_wrapper.sh 1_ASEReadCounter.py -bucket ecoevodyn_tribolium_tcas3_30 -population HD_G1 -version Tcas3.30 -suffix imputed

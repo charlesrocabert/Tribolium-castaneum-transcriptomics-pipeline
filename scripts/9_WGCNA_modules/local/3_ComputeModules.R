@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 3_ComputeModules.R
 # ------------------
@@ -110,25 +110,19 @@ extract_significant_modules <- function( expression, fitness, net )
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation")
-
 #-------------------------------------#
 # 1) Read command line arguments      #
 #-------------------------------------#
-# args = commandArgs(trailingOnly=TRUE)
-# if (length(args)<4)
-# {
-#   stop("Please provide all command line arguments. Exit.", call.=FALSE)
-# }
-# POPULATION = args[1]
-# VERSION    = args[2]
-# PHENOTYPE  = args[3]
-# POWER      = as.numeric(args[4])
-
-POPULATION = "HD_G1"
-VERSION    = "Tcas3.30"
-PHENOTYPE  = "NOISE"
-POWER      = 6
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<5)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+POPULATION      = args[2]
+VERSION         = args[3]
+PHENOTYPE       = args[4]
+POWER           = as.numeric(args[5])
 
 #-------------------------------------#
 # 2) Load the dataset and the fitness #

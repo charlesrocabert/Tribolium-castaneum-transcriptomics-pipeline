@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_DetectSignificantASE.R
 # ------------------------
@@ -15,7 +15,7 @@ rm(list=ls())
 ### Load samples ###
 load_samples <- function( population, version )
 {
-  filename = paste0("/scratch/project_2003847/Tribolium-Polygenic-Adaptation/data/tribolium_bam/samples_", population, "_", version, ".csv")
+  filename = paste0("/scratch/project_XXXXXXX/Tribolium-Polygenic-Adaptation/data/tribolium_bam/samples_", population, "_", version, ".csv")
   samples = read.table(filename, h=T, sep=";")
   return(samples)
 }
@@ -23,7 +23,7 @@ load_samples <- function( population, version )
 ### Load ASE file ###
 load_ASE_file <- function( population, version, suffix, sample )
 {
-  filename = paste0("/scratch/project_2003847/Tribolium_castaneum_ASE/tables/", population, "_", version, "_", suffix, "_", sample, ".table")
+  filename = paste0("/scratch/project_XXXXXXX/Tribolium_castaneum_ASE/tables/", population, "_", version, "_", suffix, "_", sample, ".table")
   ase_file = read.table(filename, h=T, sep="\t")
   return(ase_file)
 }
@@ -130,11 +130,11 @@ names(is_signif_table)[2:dim(is_signif_table)[2]] = samples$sample
 # 5) Extract significant SNPs based #
 #    on population-level criteria   #
 #-----------------------------------#
-filename = paste0("/scratch/project_2003847/Tribolium_castaneum_ASE/", POPULATION, "_", VERSION, "_", SUFFIX, "_HET_SNPs")
+filename = paste0("/scratch/project_XXXXXXX/Tribolium_castaneum_ASE/", POPULATION, "_", VERSION, "_", SUFFIX, "_HET_SNPs")
 write.table(is_het_table, file=paste0(filename,".txt"), quote=F, row.names=F, col.names=T)
 saveRDS(is_het_table, file=paste0(filename,".rds"))
 
-filename = paste0("/scratch/project_2003847/Tribolium_castaneum_ASE/", POPULATION, "_", VERSION, "_", SUFFIX, "_SIGNIF_SNPs")
+filename = paste0("/scratch/project_XXXXXXX/Tribolium_castaneum_ASE/", POPULATION, "_", VERSION, "_", SUFFIX, "_SIGNIF_SNPs")
 write.table(is_signif_table, file=paste0(filename,".txt"), quote=F, row.names=F, col.names=T)
 saveRDS(is_signif_table, file=paste0(filename,".rds"))
 
