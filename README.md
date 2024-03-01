@@ -9,6 +9,8 @@ This repository contains the transcriptomics pipeline that I developed during my
 
 The pipeline was first designed to be deployed on the [CSC computing farm](https://www.csc.fi/en/). **Some CSC-specific code has been retained in the public version for integrity and publication purposes** (mostly in HPC scripts).
 
+Some parts of the pipeline have not been included yet, as they are related to manuscripts under preparation (`data` and `analyses` folders).
+
 Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me</a> for any question.
 
 # Table of contents
