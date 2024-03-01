@@ -40,7 +40,7 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 
 # Introduction
 
-The objective of this pipeline is to integrate the detection of signals of selection at multiple levels of the genotype-to-phenotype map. The originality of this approach is to both detect allele frequency changes (AFCs) and gene expression changes through generations, using the same individual-level RNA-seq dataset. Recent studies have demonstrated the possibility to detect SNPs from RNA-seq data, assuming that only expressed regions of the genome are available. The approach covers a vast amount of methodologies, including variants call, the calculation of AFCs and the genetic map, read counts or the detection of gene expression modules.
+The objective of this pipeline is to integrate the detection of signals of selection at multiple levels of the genotype-to-phenotype map. The originality of this approach is to both detect allele frequency changes (AFCs) and gene expression changes through generations, using the same individual-level RNA-seq dataset. Recent studies have demonstrated the possibility to detect SNPs from RNA-seq data, assuming that only expressed regions of the genome are available. The approach covers a vast amount of methodologies, including variants call, the calculation of AFCs and the genetic map, read counts, or the detection of eQTLs and gene expression modules.
 
 The pipeline is described in detail below.
 
