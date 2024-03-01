@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_ExtractNoMissingMarkers.py
 # ----------------------------
@@ -21,6 +21,7 @@ import argparse
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--suffix", "-suffix", help="Suffix")
@@ -97,30 +98,18 @@ def keep_no_missing_variants( genotypes ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 1_ExtractNoMissingMarkers.py")
-    print("# ----------------------------")
-    print("# Extract all markers with a call rate of 100%, and save them in an ad hoc")
-    print("# binary data structure.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Load the dataset             #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Load the VCF file")
-    filename  = "../../../data/tribolium_snp/Tribolium_castaneum_"+config["population"]+"_"+config["version"]+"_"+config["suffix"]+".vcf"
+    filename  = "./data/tribolium_snp/Tribolium_castaneum_"+config["population"]+"_"+config["version"]+"_"+config["suffix"]+".vcf"
     genotypes = load_VCF(filename)
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -128,7 +117,7 @@ if __name__ == '__main__':
     #    missing genotypes            #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Save the probability distribution of missing genotypes")
-    write_probability_distribution("../../../data/tribolium_snp/imputation_tests/missing_genotypes_probability_distribution.csv", genotypes)
+    write_probability_distribution("./data/tribolium_snp/imputation_tests/missing_genotypes_probability_distribution.csv", genotypes)
     print(">> Select SNPs with 100% call rate")
     no_missing = keep_no_missing_variants(genotypes)
     del genotypes
@@ -137,7 +126,7 @@ if __name__ == '__main__':
     # 3) Dump the result in a binary  #
     #    file                         #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    ofile = open("../../../data/tribolium_snp/imputation_tests/no_missing_genotypes", "wb")
+    ofile = open("./data/tribolium_snp/imputation_tests/no_missing_genotypes", "wb")
     dill.dump(no_missing, ofile)
     ofile.close()
     del no_missing

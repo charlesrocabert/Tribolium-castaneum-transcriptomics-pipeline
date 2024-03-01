@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_ImputationTests.py
 # --------------------
@@ -23,6 +23,7 @@ import argparse
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
     parser.add_argument("--beagle", "-beagle", help="Beagle-5.4 path")
     parser.add_argument("--rep", "-rep", type=int, help="Number of repetitions")
     args = parser.parse_args()
@@ -96,7 +97,7 @@ def generate_toy_data( genotypes ):
 ### Write the toy data into a VCF ###
 def write_toy_VCF( toy_data ):
     global_params = ["#CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO", "FORMAT"]
-    f             = open("../../../data/tribolium_snp/imputation_tests/toy_data.vcf", "w", encoding="ISO-8859-1")
+    f             = open("./data/tribolium_snp/imputation_tests/toy_data.vcf", "w", encoding="ISO-8859-1")
     f.write(toy_data["header"])
     for ID in toy_data.keys():
         if ID not in ["header", "missing"]:
@@ -111,9 +112,9 @@ def write_toy_VCF( toy_data ):
 
 ### Run Beagle for imputation ###
 def run_beagle_imputation( beagle_path ):
-    cmdline = "java -jar "+beagle_path+" gt=../../../data/tribolium_snp/imputation_tests/toy_data.vcf out=../../../data/tribolium_snp/imputation_tests/imputed_data"
+    cmdline = "java -jar "+beagle_path+" gt=./data/tribolium_snp/imputation_tests/toy_data.vcf out=./data/tribolium_snp/imputation_tests/imputed_data"
     os.system(cmdline+" > /dev/null")
-    os.system("gunzip ../../../data/tribolium_snp/imputation_tests/imputed_data.vcf.gz")
+    os.system("gunzip ./data/tribolium_snp/imputation_tests/imputed_data.vcf.gz")
 
 ### Load the imputed VCF file ###
 def compute_distance( complete_data, missing_data, imputed ):
@@ -160,29 +161,18 @@ def compute_distance( complete_data, missing_data, imputed ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 2_ImputationTests.py")
-    print("# --------------------")
-    print("# Test imputation capabilities of Beagle with benchmark datasets.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
-    
+    os.chdir(config["repository_path"])
+
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Load the dataset             #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Load the 100% call rate dataset")
-    ifile      = open("../../../data/tribolium_snp/imputation_tests/no_missing_genotypes", "rb")
+    ifile      = open("./data/tribolium_snp/imputation_tests/no_missing_genotypes", "rb")
     no_missing = dill.load(ifile)
     ifile.close()
 
@@ -191,7 +181,7 @@ if __name__ == '__main__':
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Run the tests")
     random.seed(time.time())
-    f = open("../../../data/tribolium_snp/imputation_tests/imputation_success_rate.csv", "w")
+    f = open("./data/tribolium_snp/imputation_tests/imputation_success_rate.csv", "w")
     f.write("success_rate;nb_success;total\n")
     f.flush()
     for rep in range(1,config["rep"]+1):
@@ -202,14 +192,14 @@ if __name__ == '__main__':
         write_toy_VCF(toy_data)
         print("     • Run genotype imputation")
         run_beagle_imputation(config["beagle"])
-        imputed        = load_VCF("../../../data/tribolium_snp/imputation_tests/imputed_data.vcf")
+        imputed        = load_VCF("./data/tribolium_snp/imputation_tests/imputed_data.vcf")
         print("     • Compute success rate")
         success, count = compute_distance(no_missing, toy_data, imputed)
         print("     • Score = "+str(success/count))
         f.write(str(success/count)+";"+str(success)+";"+str(count)+"\n")
         f.flush()
-        os.system("rm ../../../data/tribolium_snp/imputation_tests/imputed_data.vcf")
-        os.system("rm ../../../data/tribolium_snp/imputation_tests/toy_data.vcf")
+        os.system("rm ./data/tribolium_snp/imputation_tests/imputed_data.vcf")
+        os.system("rm ./data/tribolium_snp/imputation_tests/toy_data.vcf")
     f.close()
 
     print(">> Done.")

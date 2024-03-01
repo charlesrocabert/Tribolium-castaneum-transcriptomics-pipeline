@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_ImputeGenotypes.py
 # --------------------
@@ -21,6 +21,8 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
+    parser.add_argument("--beagle", "-beagle", help="Beagle-5.4 path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--suffix", "-suffix", help="Suffix")
@@ -170,33 +172,18 @@ def compress_VCF_file( population, version, suffix ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 2_ImputeGenotypes.py")
-    print("# --------------------")
-    print("# Impute genotypes of a VCF file with Beagle.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH     = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    BEAGLE_PATH = "/Users/charlesrocabert/beagle-5.4/beagle.22Jul22.46e.jar"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Impute genotypes             #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Impute genotypes with Beagle")
-    run_Beagle_imputation(BEAGLE_PATH, config["population"], config["version"], config["suffix"], config["map"])
+    run_Beagle_imputation(config["beagle"], config["population"], config["version"], config["suffix"], config["map"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 3) Load imputed genotypes       #

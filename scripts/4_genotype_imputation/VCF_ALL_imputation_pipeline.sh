@@ -11,5 +11,9 @@
 # (LOCAL SCRIPT)
 #***************************************************************************
 
-python ./local/3_ImputeGenotypes.py -population ALL -version Tcas3.30 -suffix Beagle
+# The user must specify the path to the repository and Beagle
+REPOSITORY_PATH="/path/to/repository"
+BEAGLE_PATH="/path/to/beagle"
+
+python ./local/3_ImputeGenotypes.py -repository-path $REPOSITORY_PATH -beagle $BEAGLE_PATH -population ALL -version Tcas3.30 -suffix Beagle
 
