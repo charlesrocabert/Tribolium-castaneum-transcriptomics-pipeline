@@ -14,12 +14,10 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 # Table of contents
 - [Overview](#overview)
 - [Authors](#authors)
-- [Copyright](#copyright)
 - [Publications](#publications)
 - [Dependencies](#dependencies)
 - [Description of the pipeline](#pipeline_description)
   - [Scripts](#scripts)
-    - [Puhti scripts](#scripts_0)
     - [Reorganizing BAM files](#scripts_1)
     - [Variants detection](#scripts_2)
     - [Selecting populations](#scripts_3)
@@ -35,6 +33,7 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
     - [FST clusters](#scripts_13)
   - [Analyses](#analyses)
   - [Data](#data)
+- [Copyright](#copyright)
 - [License](#license)
 
 # Overview
@@ -43,11 +42,9 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 
 # Authors <a name="authors"></a>
 
-Charles Rocabert, Eva L. Koch, Frédéric Guillaume.
-
-# Copyright <a name="copyright"></a>
-
-Copyright © 2021-2024 Charles Rocabert, Eva L. Koch, Frédéric Guillaume. All rights reserved.
+- Charles Rocabert
+- Eva L. Koch
+- Frédéric Guillaume
 
 # Publications <a name="publications"></a>
 
@@ -104,7 +101,6 @@ The pipeline is described in details below.
 ## Scripts <a name="scripts"></a>
 
       └── scripts
-           ├── 0_Puhti_scripts
            ├── 1_BAM_files_reorganization
            ├── 2_variant_call
            ├── 3_select_population
@@ -123,25 +119,6 @@ The pipeline is described in details below.
 For each task, the scripts are also numbered in the order of their execution, and are split between local (`local` folder) and HPC (`hpc` folder).
 
 Sometimes, a shell script is also available to run all **local scripts** in the right order (see below). HPC scripts are designed for the CSC computing farm. The user must update the code before deployment on a computer farm.
-    
-### 📂 CSC scripts <a name="scripts_0"></a>
-
-      └── scripts
-           └── 0_Puhti_scripts
-
-This folder contains various scripts and wrappers to deploy Python or R tasks on the CSC server Puhti (single jobs or array jobs), and connect to the CSC storage server Allas.
-
-⚠️ **User and project names must be updated before usage**.
-
-```mermaid
-flowchart LR
-A("Single job task") --> B[["Run wrapper"]]
-```
-
-```mermaid
-flowchart LR
-A("Parallel jobs task") --> B[["Array wrapper"]]
-```
 
 ### 📂 Reorganizing BAM files <a name="scripts_1"></a>
 
@@ -153,7 +130,7 @@ A("Parallel jobs task") --> B[["Array wrapper"]]
                      ├── 3_CheckBamReadgroups.py
                      └── 4_RelocateBamFiles.py
 
-The goal of this task is to parse the original source of BAM files (here a hard-drive) to rationalize their organization, make some adjustements and extract information.
+The objective here is to parse the original BAM files source, re-organize them, make some adjustements and extract information.
 
 Associated data folder(s): `./data/tribolium_bam`.
 
@@ -165,23 +142,23 @@ Associated data folder(s): `./data/tribolium_bam`.
 **Sample files will be used all along the pipeline**.
 
 #### ⚙️ `3_CheckBamReadgroups.py (local)`:
-> This script parses every BAM files to check the absence of the "read group" entry ("RG" label), which is mandatory for further analyses (will be added later).
+> This script parses every BAM files to check the absence of the "read group" entry ("RG" label).
 
 #### ⚙️ `4_RelocateBamFiles.py (local)`:
-> This script relocates BAM files from the original hard-drive for further analysis (:warning: needs debugging).
-> **Ultimately, BAM files are transfered to Allas with an independent script**.
+> This script relocates BAM files from the original hard-drive for further analysis.
+> **Ultimately, BAM files are transfered to a distant server with an independent script**.
 
 ```mermaid
 flowchart LR
 subgraph local
 direction LR
-A[("Source<br/>BAMs")] --> B("1_CreateBamMap.py<br/><em>(local)</em>")
+A[("Source<br/>BAMs")] --> B("1_CreateBamMap.py<br/>(local)")
 B --> C[("BAM<br/>map")]
-C --> D("2_SplitBamMap.R<br/><em>(local)</em>")
+C --> D("2_SplitBamMap.R<br/>(local)")
 D --> E[("Samples")]
-E --> F("3_CheckBamReadgroups.py<br/><em>(local)</em>")
+E --> F("3_CheckBamReadgroups.py<br/>(local)")
 A[("Source<br/>BAMs")] --> F
-E --> G("4_RelocateBamFiles.py<br/><em>(local)</em>")
+E --> G("4_RelocateBamFiles.py<br/>(local)")
 A[("Source<br/>BAMs")] --> G
 G --> H[("Ready for<br/>analysis<br/>BAMs")]
 end
@@ -199,14 +176,14 @@ end
                      └── 4_SelectFilterAnnotateVariants.py
                 └── variant_detection_pipeline.sh
 
-The goal of this task is to perform a variant call on the entire transcriptomic data (version Tcas3.30 of the genome). It uses various software and ultimately produces a filtered VCF file containing raw SNPs.
+This task performs a variant call on the entire transcriptomic data (version Tcas3.30 of <em>T. castaneum</em> genome). It uses various software and ultimately produces a filtered VCF file containing raw SNPs.
 This raw SNPs VCF file is stored in `./data/tribolium_vcf/Tribolium_castaneum_ALL_Tcas3.30.vcf.gz`.
 
 Associated data folder(s): `./data/tribolium_vcf`.
 
-#### ⚙️ `1_BamPreProcessing.py` (HPC array wrapper):
+#### ⚙️ `1_BamPreProcessing.py` (HPC):
 > This script pre-processes BAM files by (in this order):
-> - Importing the unedited BAM file from Allas,
+> - Importing the unedited BAM file from the distant server,
 > - Importing the reference genome and generate indices,
 > - Adding the read group,
 > - Uncompressing the BAM file to SAM,
@@ -215,22 +192,22 @@ Associated data folder(s): `./data/tribolium_vcf`.
 > - Copying a version of the BAM file to mark duplicates,
 > - Generating BAI index file,
 > - Handling splicing events,
-> - Exporting edited BAM files to Allas.
+> - Exporting edited BAM files to the distant server.
 
-#### ⚙️ `2_HaplotypeCaller.py` (HPC array wrapper):
+#### ⚙️ `2_HaplotypeCaller.py` (HPC):
 > This script uses marked duplicates BAM files to run the complete pipeline for per-sample variant call by (in this order):
-> - Importing the BAM file from Allas
+> - Importing the BAM file from the distant server,
 > - Importing the reference genome and generate indexes,
 > - Generating BAI index file,
-> - Running GATK HaplotypeCaller. This task can take several hours,
-> - Exporting GVCF files to Allas.
+> - Running GATK HaplotypeCaller. **This task can take several hours**,
+> - Exporting GVCF files to the distant server.
 
-#### ⚙️ `3_JointCaller.py` (HPC run wrapper):
+#### ⚙️ `3_JointCaller.py` (HPC):
 > This script runs the complete pipeline for the join call by (in this order):
 > - Generating GenomicsDB database by:
 >   - Importing the list of samples,
->   - Importing all GVCFs from Allas,
->   - Importing the reference genome from Allas and compute index files,
+>   - Importing all GVCFs from the distant server,
+>   - Importing the reference genome from the distant server and compute index files,
 >   - Generating the sample map,
 >   - Generating the interval list,
 >   - Running GATK GenomicsDBImport,
@@ -238,7 +215,7 @@ Associated data folder(s): `./data/tribolium_vcf`.
 > - Performing the joint-call cohort by:
 >   - Importing the consolidated database from the scratch if needed,
 >   - Running GATK GenotypeGVCFs,
->   - Exporting the joint-call file (VCF) to the scratch.
+>   - Exporting the joint-call file (VCF) to a local server.
 
 #### ⚙️ `4_SelectFilterAnnotateVariants.py` (local):
 > This script selects bi-allelic SNP variants from the original VCF file by (in this order):
@@ -255,16 +232,16 @@ Associated data folder(s): `./data/tribolium_vcf`.
 flowchart TB
 subgraph HPC
 direction LR
-A[("Unedited<br/>BAMs")] --> B("1_BamPreProcessing.py<br/><em>(HPC array)</em>")
+A[("Unedited<br/>BAMs")] --> B("1_BamPreProcessing.py<br/>(HPC)")
 B --> C[("Edited<br/>BAMs")]
-C --> D("2_HaplotypeCaller.py<br/><em>(HPC array)</em>")
+C --> D("2_HaplotypeCaller.py<br/>(HPC)")
 D --> E[("GVCFs")]
-E --> F("3_JointCaller.py<br/><em>(HPC)</em>")
+E --> F("3_JointCaller.py<br/>(HPC)")
 F --> G[("VCF")]
 end
 subgraph local
 direction LR
-H("variant_detection_pipeline.sh<br/><em>(local)</em>") --> I[("bi-allelic SNPs<br/>VCF")]
+H("variant_detection_pipeline.sh<br/>(local)") --> I[("bi-allelic SNPs<br/>VCF")]
 end
 HPC --> |"Download<br/>VCF"| local
 ```
@@ -283,7 +260,7 @@ HPC --> |"Download<br/>VCF"| local
                 ├── VCF_imputed_genotypes_line_separation_pipeline.sh
                 └── VCF_CT_HD_G1_LepMAP3_pipeline.sh
 
-This task is a general function which separate population-level files (VCF or read counts) into sub-population files on user request.
+This task is a general function which splits population-level files (VCF or read counts) into sub-population files on user request.
 **This function is used in further tasks involving sub-population analyses**.
 
 Associated data folder(s): `./data/tribolium_snp`, `./data/tribolium_counts`.
@@ -311,9 +288,9 @@ Associated data folder(s): `./data/tribolium_snp`, `./data/tribolium_counts`.
 flowchart LR
 subgraph local
 direction LR
-A[("VCF")] --> B("1_SelectPopulation.py<br/><em>(local)</em>")
-B --> C("2_FilterGenotypes.py<br/><em>(local)</em>")
-C --> D("3_VariantsToTable.py<br/><em>(local)</em>")
+A[("VCF")] --> B("1_SelectPopulation.py<br/>(local)")
+B --> C("2_FilterGenotypes.py<br/>(local)")
+C --> D("3_VariantsToTable.py<br/>(local)")
 D --> E[("Sub-population<br/>VCF")]
 end
 ```
@@ -324,7 +301,7 @@ end
 flowchart LR
 subgraph local
 direction LR
-A[("Read<br/>counts")] --> B("1_SelectPopulation.py<br/><em>(local)</em>")
+A[("Read<br/>counts")] --> B("1_SelectPopulation.py<br/>(local)")
 B --> C[("Sub-population<br/>read<br/>counts")]
 end
 ```
@@ -361,18 +338,18 @@ Associated data folder(s): `./data/tribolium_snp`.
 flowchart LR
 subgraph "local (benchmark)"
 direction LR
-B("1_ExtractNoMissingMarkers.py<br/><em>(local)</em>") --> C("2_ImputationTests.py<br/><em>(local)</em>")
+B("1_ExtractNoMissingMarkers.py<br/>(local)") --> C("2_ImputationTests.py<br/>(local)")
 C --> D[("Imputation<br/>success rate")]
 end
 subgraph "local (main pipeline)"
 direction LR
-E("2_ImputeGenotypes.py<br/><em>(local)</em>") --> F[("Imputed<br/>VCF")]
+E("2_ImputeGenotypes.py<br/>(local)") --> F[("Imputed<br/>VCF")]
 end
 A[("VCF")] --> B
 A --> E
 ```
 
-### 📂 Allelic frequencies changes (AFCs) <a name="scripts_5"></a>
+### 📂 Allelic frequency changes (AFCs) <a name="scripts_5"></a>
 
       └── scripts
            └── 5_AFCs
@@ -402,9 +379,9 @@ Associated data folder(s): `./data/tribolium_afc`.
 flowchart LR
 subgraph "local"
 direction LR
-A[("SNPs<br/>table")] --> B("1_MergeAFs.R<br/><em>(local)</em>")
-B --> C("2_ComputeAFCs.R<br/><em>(local)</em>")
-C --> D("3_SplitAFCs.R<br/><em>(local)</em>")
+A[("SNPs<br/>table")] --> B("1_MergeAFs.R<br/>(local)")
+B --> C("2_ComputeAFCs.R<br/>(local)")
+C --> D("3_SplitAFCs.R<br/>(local)")
 D --> E[("AFCs<br/>per line<br/>and environment")]
 end
 ```
@@ -426,20 +403,20 @@ This task handles BAM files (without marked duplicates) to perform a reads count
 
 Associated data folder(s): `./data/tribolium_counts`.
 
-#### ⚙️ `1_FeatureCounts.py` (HPC array wrapper):
+#### ⚙️ `1_FeatureCounts.py` (HPC):
 > This script calculates feature counts for every individual samples by (in this order):
 > - Importing `subread` package and compile it,
 > - Importing reference genome annotation,
 > - Importing the list of samples,
 > - For each BAM file, if the read counts file does not exist:
 >   - Running `subread FeatureCounts`,
->   - Exporting resulting files to Allas.
+>   - Exporting resulting files to the distant server.
 
-#### ⚙️ `2_MergeFeatureCounts.py` (HPC run wrapper):
+#### ⚙️ `2_MergeFeatureCounts.py` (HPC):
 > This script merges feature counts from every individual samples by (in this order):
 > - Importing the list of samples and all read counts,
 > - Mergeing read counts in a single file,
-> - Exporting the resulting file to Allas.
+> - Exporting the resulting file to the distant server.
 
 #### ⚙️ `3_TransformReadCounts.R` (local):
 > This script transforms a gene expression dataset by filtering it, calculating the TMM normalization, and removing run, batch and line effects.
@@ -456,16 +433,16 @@ Associated data folder(s): `./data/tribolium_counts`.
 flowchart TB
 subgraph HPC
 direction LR
-A[("BAMs")] --> B("1_FeatureCounts.py<br/><em>(HPC array)</em>")
+A[("BAMs")] --> B("1_FeatureCounts.py<br/>(HPC)")
 B --> C[("Per-sample<br/>read counts")]
-C --> D("2_MergeFeatureCounts.py<br/><em>(HPC array)</em>")
+C --> D("2_MergeFeatureCounts.py<br/>(HPC)")
 D --> E[("Global<br/>read counts")]
 end
 subgraph local
 direction LR
-F("3_TransformReadCounts.R<br/><em>(local)</em>") --> H[("Transformed<br/>read counts")]
-G("4_DetectLowExpressedTranscripts.R<br/><em>(local)</em>") --> I[("Expressed<br/>reads")]
-H --> J("5_StandardizeReadCounts.R<br/><em>(local)</em>")
+F("3_TransformReadCounts.R<br/>(local)") --> H[("Transformed<br/>read counts")]
+G("4_DetectLowExpressedTranscripts.R<br/>(local)") --> I[("Expressed<br/>reads")]
+H --> J("5_StandardizeReadCounts.R<br/>(local)")
 I --> J
 J --> K[("Standardized<br/>read counts")]
 end
@@ -505,12 +482,12 @@ Associated data folder(s): `./data/tribolium_phenotypes`.
 flowchart LR
 subgraph "local"
 direction LR
-A[("read<br/>counts")] --> B("1_CopyExpressionFiles.sh<br/><em>(local)</em>")
-B --> C("2_ComputePlasticityResponse.R<br/><em>(local)</em>")
-B --> D("3_ComputePhenotypicNoise.R<br/><em>(local)</em>")
+A[("read<br/>counts")] --> B("1_CopyExpressionFiles.sh<br/>(local)")
+B --> C("2_ComputePlasticityResponse.R<br/>(local)")
+B --> D("3_ComputePhenotypicNoise.R<br/>(local)")
 C --> E[("Plastic response<br/>phenotypes")]
 D --> F[("V<sub>e</sub><br/>phenotypes")]
-G[("Fitness<br/>measurements")] --> H("4_ComputeRelativeFitness.R<br/><em>(local)</em>")
+G[("Fitness<br/>measurements")] --> H("4_ComputeRelativeFitness.R<br/>(local)")
 H --> I[("Relative<br/>fitnesses")]
 end
 ```
@@ -546,30 +523,30 @@ Associated data folder(s): `./data/tribolium_eqtl`.
 > Files are generated at once for all the phenotypes (expression, plasticity, noise and fitness). 
 
 #### ⚙️ `2_UploadGemmaFiles.py` (local):
-> This script exports all the input files (`.bed`, `.bim`, `.fam` and `.pheno`) to the distant storage server Allas.
+> This script exports all the input files (`.bed`, `.bim`, `.fam` and `.pheno`) to the distant storage server.
 
 #### ⚙️ `CheckGemmaFiles.py` (HPC maintenance script):
-> This maintenance script checks if GEMMA output files are missing after an array job.
+> This maintenance script checks if GEMMA output files are missing after a HPC job.
 
 #### ⚙️ `DeleteGemmaFiles.py` (HPC maintenance script):
 > This maintenance script delete GEMMA output files to prevent duplicates before a new run.
 
-#### ⚙️ `3_Gemma.py` (HPC array wrapper):
-> This script runs GWAAs on a given number of phenotypes (the max number of jobs being limited on Puhti) by (in this order):
-> - Importing GEMMA software and datasets from Allas,
+#### ⚙️ `3_Gemma.py` (HPC):
+> This script runs GWAAs on a given number of phenotypes by (in this order):
+> - Importing GEMMA software and datasets from the distant server,
 > - Calculating the kinship matrix,
 > - Running GEMMA on the right set of phenotypes,
 > - Converting the output to RDS format,
-> - Exporting resulting files to Allas.
+> - Exporting resulting files to the distant server.
 
 #### ⚙️ `4_CollectSignificantEQTLs.R` (HPC independent script):
-> This script collect significant eQTLs in a dedicated file saved in the scratch. Two steps are applied to filter significant eQTLs:
+> This script collect significant eQTLs in a dedicated file. Two steps are applied to filter significant eQTLs:
 > Collect all significant eQTL associations given a p-value threshold.
 > - Genomic correction is applied and the FDR is calculated,
 > - eQTLs with a p-value < 0.05 are selected.
 
 #### ⚙️ `5_DownloadGemmaFiles.py` (local):
-> This script downloads significant eQTL files from Allas, based on a list of phenotypes.
+> This script downloads significant eQTL files from the distant server, based on a list of phenotypes.
 
 #### ⚙️ `6_merge_eQTLs_pipeline.sh (local):
 > This pipeline collect and merge significant eQTLs with additional information such as gene position (`ExtractGenePos.py` script) and gene and phenotype annotations (`MergeEQTLsDatasets.R` script).
@@ -580,7 +557,7 @@ Associated data folder(s): `./data/tribolium_eqtl`.
 flowchart TB
 subgraph sg1["local (1)"]
 direction LR
-A[("Selected<br/>phenotypes")] --> B("1_eQTLs_data_preparation_pipeline.sh<br/><em>(local)</em>")
+A[("Selected<br/>phenotypes")] --> B("1_eQTLs_data_preparation_pipeline.sh<br/>(local)")
 C[("Reference<br/>genome")] --> B
 B --> D[(".bed")]
 B --> E[(".bim")]
@@ -589,12 +566,12 @@ B --> G[(".pheno")]
 end
 subgraph sg2["HPC"]
 direction LR
-H("3_Gemma.py<br/><em>(HPC array wrapper)</em>") --> I("4_CollectSignificantEQTLs.R<br/><em>(distant script)</em>")
+H("3_Gemma.py<br/>(HPC)") --> I("4_CollectSignificantEQTLs.R<br/>(HPC)")
 I --> J[("Significant<br/>eQTLs")]
 end
 subgraph sg3["local (2)"]
 direction LR
-K("6_merge_eQTLs_pipeline.sh<br/><em>(local)</em>") --> L[("Annotated<br/>significant<br/>eQTLs")]
+K("6_merge_eQTLs_pipeline.sh<br/>(local)") --> L[("Annotated<br/>significant<br/>eQTLs")]
 end
 sg1 --> |"Upload<br/>input files<br/>(2_UploadGemmaFiles.py)"| sg2
 sg2 --> |"Download<br/>output files<br/>(5_DownloadGemmaFiles.py)"| sg3
@@ -637,10 +614,10 @@ Associated data folder(s): `./data/tribolium_modules`.
 flowchart TB
 subgraph "local"
 direction LR
-A[("Phenotype")] --> B("1_ExploreModuleFitnessCorrelations.R<br/><em>(local)</em>")
-B --> C("2_PlotModuleExploration.R<br/><em>(local)</em>")
+A[("Phenotype")] --> B("1_ExploreModuleFitnessCorrelations.R<br/>(local)")
+B --> C("2_PlotModuleExploration.R<br/>(local)")
 C --> D[("Seleted<br/>threshold")]
-D --> E("3_ComputeModules.R<br/><em>(local)</em>")
+D --> E("3_ComputeModules.R<br/>(local)")
 A --> E
 E --> F[("WGCNA<br/>modules")]
 end
@@ -673,20 +650,19 @@ Associated data folder(s): `./data/tribolium_ase`.
 flowchart TB
 subgraph sg1["HPC"]
 direction LR
-A[("BAMs")] --> B("1_ASEReadCounter.py<br/><em>(HPC array wrapper)</em>")
-B --> C("2_DetectSignificantASE.R<br/><em>(HPC)</em>")
+A[("BAMs")] --> B("1_ASEReadCounter.py<br/>(HPC)")
+B --> C("2_DetectSignificantASE.R<br/>(HPC)")
 C --> D[("Significant<br/>ASEs")]
 end
 subgraph sg2["local"]
 direction LR
-E("3_SummarizeASEData.R<br/><em>(HPC array wrapper)</em>") --> F[("Summarized<br/>ASEs")]
+E("3_SummarizeASEData.R<br/>(HPC)") --> F[("Summarized<br/>ASEs")]
 end
 sg1 --> |"Download<br/>ASEs"| sg2
 ```
 
 ### 📂 LD map with Lep-MAP3 <a name="scripts_11"></a>
 This task calculates a genetic map (or LD map) using Lep-MAP3 software. The pipeline is complex and will not be described here.
-**Please consult the PDF report available in the folder `./doc/Lep-MAP3 report` for a detailed description of the pipeline**.
 
 ### 📂 Haplotype blocks <a name="scripts_12"></a>
 
@@ -707,15 +683,10 @@ Associated data folder(s): `./data/tribolium_ld`.
 flowchart TB
 subgraph sg2["local"]
 direction LR
-A[("Genetic<br/>map")] --> B("1_ExtractHaplotypeBlocks.R<br/><em>(local)</em>")
+A[("Genetic<br/>map")] --> B("1_ExtractHaplotypeBlocks.R<br/>(local)")
 B --> C[("Haplotype<br/>blocks")]
 end
 ```
-
-### 📂 FST clusters <a name="scripts_13"></a>
-➡️ Work in progress ⬅️
-
-Associated data folder(s): `./data/tribolium_diversity`.
 
 ## Analyses <a name="analyses"></a>
 Analysis pipelines are related to manuscripts under preparation and will be described here later.
@@ -740,6 +711,14 @@ Analysis pipelines are related to manuscripts under preparation and will be desc
            ├── tribolium_snp: contains VCF files containing bi-allelic variant SNPs
            └── tribolium_vcf: contains the raw VCF file obtained from the variant call
 
+# Copyright <a name="copyright"></a>
+
+Copyright © 2021-2024 Charles Rocabert, Eva L. Koch, Frédéric Guillaume. All rights reserved.
+
 # License <a name="license"></a>
-➡️ License agreement to be displayed here ⬅️
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
