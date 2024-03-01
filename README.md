@@ -12,6 +12,7 @@ The pipeline was first designed to be deployed on the [CSC computing farm](https
 Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me</a> for any question.
 
 # Table of contents
+- [Introduction](#introduction)
 - [Overview](#overview)
 - [Authors](#authors)
 - [Publications](#publications)
@@ -34,6 +35,12 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
   - [Data](#data)
 - [Copyright](#copyright)
 - [License](#license)
+
+# Introduction
+
+The objective of this pipeline is to associate signals of selection at the genomic and gene expression levels. The originality of this approach is to both detect allele both allele frequency changes (AFCs) and gene expression changes through generations, using the same individual-level RNA-seq dataset. Recent studies have demonstrated the possibility to detect SNPs from RNA-seq data, assuming that only expressed regions of the genome are available. The approach covers a vast amount of methodologies, including variants call, the calculation of AFCs and the genetic map, read counts or the detection of gene expression modules.
+
+The pipeline is described in detail below.
 
 # Overview
 
