@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 4_SelectFilterAnnotateVariants.py
 # ---------------------------------
@@ -27,6 +27,9 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
+    parser.add_argument("--gatk-path", "-gatk-path", help="GATK folder path")
+    parser.add_argument("--snpeff-path", "-snpeff-path", help="snpeff .jar file path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--suffix", "-suffix", help="Final suffix (also used to load filters)")
@@ -227,36 +230,15 @@ def compress_VCF_file( population, version, suffix ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 4_SelectFilterAnnotateVariants.py")
-    print("# ---------------------------------")
-    print("# Select bi-allelic SNP variants from the original VCF file.")
-    print("# (LOCAL SCRIPT)")
-    print("#")
-    print("# 1) Select bi-allelic SNP variants")
-    print("# 2) Tag DP=0 genotypes as missing ('./.'),")
-    print("# 3) Filter out low quality SNPs,")
-    print("# 4) Annotate SNPs,")
-    print("# 5) Add SNP unique identifiers.")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH        = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    GATK_PATH      = "/Users/charlesrocabert/gatk-4.2.3.0/"
-    SNPEFF_PATH    = "/Users/charlesrocabert/snpEff-4.5/snpEff.jar"
-    SUFFIX_COUNTER = 1
-    os.chdir(WD_PATH)
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments   #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
-    config = parse_arguments()
-
+    config         = parse_arguments()
+    SUFFIX_COUNTER = 1
+    os.chdir(config["repository_path"])
+    
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Load filters                   #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -267,7 +249,7 @@ if __name__ == '__main__':
     # 3) Run GATK SelectVariants        #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Select bi-allelic variants")
-    run_gatk_SelectVariants(GATK_PATH, config["population"], config["version"], str(SUFFIX_COUNTER))
+    run_gatk_SelectVariants(config["gatk_path"], config["population"], config["version"], str(SUFFIX_COUNTER))
     SUFFIX_COUNTER += 1
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -288,7 +270,7 @@ if __name__ == '__main__':
     # 6) Apply hard-filters             #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Apply hard-filters")
-    run_gatk_VariantFiltration(GATK_PATH, config["population"], config["version"], filters, str(SUFFIX_COUNTER-1), str(SUFFIX_COUNTER), True)
+    run_gatk_VariantFiltration(config["gatk_path"], config["population"], config["version"], filters, str(SUFFIX_COUNTER-1), str(SUFFIX_COUNTER), True)
     SUFFIX_COUNTER += 1
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -309,7 +291,7 @@ if __name__ == '__main__':
     # 9) Annotate SNPs                  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Annotate SNPs")
-    annotate(SNPEFF_PATH, config["population"], config["version"], str(SUFFIX_COUNTER-1), str(SUFFIX_COUNTER), True)
+    annotate(config["snpeff_path"], config["population"], config["version"], str(SUFFIX_COUNTER-1), str(SUFFIX_COUNTER), True)
     SUFFIX_COUNTER += 1
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

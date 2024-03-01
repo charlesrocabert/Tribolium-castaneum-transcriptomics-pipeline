@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_CreateBamMap.py
 # -----------------
@@ -14,7 +14,16 @@
 import os
 import sys
 import csv
+import argparse
 import subprocess
+
+### Parse command line arguments ###
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
+    parser.add_argument("--source-path", "-source-path", help="BAM files original source path")
+    args = parser.parse_args()
+    return(vars(args))
 
 ### Load the family table ###
 def load_family_table( filename ):
@@ -131,26 +140,17 @@ def load_batches( filename ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 1_CreateBamMap.py")
-    print("# -----------------")
-    print("# Collect and list BAM files.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    DD_PATH = "/Volumes/TRIBOLIUM/TRIBOLIUM-BAM"
-    os.chdir(WD_PATH)
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    # 1) Parse command line arguments                        #
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    print(">> Parse command line arguments")
+    config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    # 1) Load family table, sequencing runs and fitness data #
+    # 2) Load family table, sequencing runs and fitness data #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    print(">>  Load family table, sequencing runs and fitness data")
+    print(">> Load family table, sequencing runs and fitness data")
     FAMILY_TABLE    = load_family_table("data/experiment_data/FamilyTable.csv")
     SEQUENCING_RUNS = load_sequencing_runs("data/experiment_data/fastq_list.txt")
     FITNESS_DATA    = load_fitness_data("data/experiment_data/fitness_data_G1.txt", "data/experiment_data/fitness_data_G21.txt")
@@ -159,16 +159,16 @@ if __name__ == '__main__':
     FAMILY_TABLE['-'] = {'line': '-', 'sire': '-', 'dam': '-'}
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    # 2) Load the list of individual samples                 #
+    # 3) Load the list of individual samples                 #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    print(">>  Load the list of individual samples")
+    print(">> Load the list of individual samples")
     hand_annotation = {"L5CT2-4HD":["CT","HD"], "L2D3-1H":["D","H"], "L2H8-4H":["H","H"]}
     samples         = {}
     sample_count    = {}
-    proc            = subprocess.Popen(["ls "+DD_PATH+" | grep '^STAR\|^Map_STAR' | grep -v MappingTest"], stdout=subprocess.PIPE, shell=True)
+    proc            = subprocess.Popen(["ls "+config["source_path"]+" | grep '^STAR\|^Map_STAR' | grep -v MappingTest"], stdout=subprocess.PIPE, shell=True)
     folders         = proc.stdout.read().decode('utf8').strip("\n").split("\n")
     for folder in folders:
-        path = DD_PATH+"/"+folder
+        path = config["source_path"]+"/"+folder
         if os.path.isfile(path+"/dataset.tsv"):
             file      = open(path+"/dataset.tsv", "r")
             csvreader = csv.reader(file, delimiter="\t")
@@ -192,9 +192,9 @@ if __name__ == '__main__':
                 run_index      = SEQUENCING_RUNS[sample]["index"]
                 bam_path       = path+"/"+sample+".bam"
                 bai_path       = path+"/"+sample+".bam.bai"
-                #######################################################
-                # 2.1) If the individual as the G1 nomenclature       #
-                #######################################################
+                ########################################################
+                # 3.1) If the individual has the G1 nomenclature       #
+                ########################################################
                 if len(sample.split("-")) == 2 and sample.split("-")[0].isnumeric():
                     generation     = "1"
                     fem            = sample.split("-")[0]
@@ -219,9 +219,9 @@ if __name__ == '__main__':
                     elif t1.endswith("HD"):
                         source_env = "HD"
                         target_env = "HD"
-                #######################################################
-                # 2.2) Else if the individual as the G21 nomenclature #
-                #######################################################
+                ########################################################
+                # 3.2) Else if the individual has the G21 nomenclature #
+                ########################################################
                 else:
                     generation     = "21"
                     fullsib_family = FITNESS_DATA[sample]["family"]
@@ -257,9 +257,9 @@ if __name__ == '__main__':
                         target_env = "D"
                     elif t1.endswith("HD"):
                         target_env = "HD"
-                #######################################################
-                # 2.3) Manage annotation if the BAM file exists       #
-                #######################################################
+                ########################################################
+                # 3.3) Manage annotation if the BAM file exists        #
+                ########################################################
                 if os.path.isfile(bam_path):
                     ### Manage annotation ###
                     annotation = row[5].split("/")[4]
@@ -322,9 +322,9 @@ if __name__ == '__main__':
             print("> No dataset in folder "+path)
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    # 3) Save the BAM map                                    #
+    # 4) Save the BAM map                                    #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    print(">>  Save the BAM map")
+    print(">> Save the BAM map")
     header  = ""
     header += "sample;"
     header += "generation;"

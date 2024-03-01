@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 4_RelocateBamFiles.py
 # ---------------------
@@ -15,7 +15,16 @@ import os
 import sys
 import csv
 import time
+import argparse
 import subprocess
+
+### Parse command line arguments ###
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
+    parser.add_argument("--source-path", "-source-path", help="BAM files original source path")
+    args = parser.parse_args()
+    return(vars(args))
 
 ### Load the BAM map ###
 def load_bam_map( filename ):
@@ -79,33 +88,27 @@ def relocate_bam( samples, path, version ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 4_RelocateBamFiles.py")
-    print("# ---------------------")
-    print("# Relocate the BAM files in a specific folder for each version.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
 
-    WD_PATH = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    DD_PATH = "/Volumes/TRIBOLIUM/TRIBOLIUM-BAM"
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    # 1) Parse command line arguments #
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    print(">> Parse command line arguments")
+    config  = parse_arguments()
+    WD_PATH = config["repository_path"]
+    DD_PATH = config["source_path"]
     os.chdir(WD_PATH)
 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    # 1) Relocate Tcas3.30 BAM files #
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    # 2) Relocate Tcas3.30 BAM files  #
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     version = "Tcas3.30"
     samples = load_bam_map("data/tribolium_bam/bam_map_ALL_"+version+".csv")
     init_folder(DD_PATH, V1)
     relocate_bam(samples, DD_PATH, V1)
 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    # 2) Relocate Tcas5.2 BAM files  #
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    # 3) Relocate Tcas5.2 BAM files   #
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     version = "Tcas5.2"
     samples = load_bam_map("data/tribolium_bam/bam_map_ALL_"+version+".csv")
     init_folder(DD_PATH, V2)

@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_SplitBamMap.R
 # ---------------
@@ -17,31 +17,40 @@ rm(list=ls())
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation")
+#--------------------------------#
+# 1) Read command line arguments #
+#--------------------------------#
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<1)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+setwd(REPOSITORY_PATH)
 
-#---------------------------#
-# 1) Clean the BAM map      #
-#---------------------------#
+#--------------------------------#
+# 2) Clean the BAM map           #
+#--------------------------------#
 bmap = read.table("data/tribolium_bam/bam_map.csv", h=T, sep=";")
 bmap = bmap[!is.na(bmap$fitness) & !is.na(bmap$run_date) & !is.na(bmap$run_index),]
 
-#---------------------------#
-# 2) Build Tcas3.30 BAM map #
-#---------------------------#
+#--------------------------------#
+# 3) Build Tcas3.30 BAM map      #
+#--------------------------------#
 bmap_tcas3_30 = bmap[bmap$annotation=="Version-2016-02-11",]
 bmap_tcas3_30 = bmap_tcas3_30[!duplicated(bmap_tcas3_30$sample),]
 write.table(bmap_tcas3_30, file="data/tribolium_bam/bam_map_Tcas3.30.csv", quote=F, row.names=F, col.names=T, sep=";")
 
-#---------------------------#
-# 3) Build Tcas5.2 BAM map  #
-#---------------------------#
+#--------------------------------#
+# 4) Build Tcas5.2 BAM map       #
+#--------------------------------#
 bmap_tcas5_2 = bmap[bmap$annotation=="Version-2017-03-28",]
 bmap_tcas5_2 = bmap_tcas5_2[!duplicated(bmap_tcas5_2$sample),]
 write.table(bmap_tcas5_2, file="data/tribolium_bam/bam_map_Tcas5.2.csv", quote=F, row.names=F, col.names=T, sep=";")
 
-#---------------------------#
-# 4) Save list of samples   #
-#---------------------------#
+#--------------------------------#
+# 5) Save list of samples        #
+#--------------------------------#
 ALL   = bmap_tcas3_30[, seq(1,13)]
 CT    = bmap_tcas3_30[bmap_tcas3_30$source_env=="CT", seq(1,13)]
 HD    = bmap_tcas3_30[bmap_tcas3_30$source_env=="HD", seq(1,13)]
