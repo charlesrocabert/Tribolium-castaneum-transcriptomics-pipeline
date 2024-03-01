@@ -102,8 +102,6 @@ The pipeline is splitted in three main folders:
 - `analyses`: This folder contains higher-level analyses. This include _e.g._ the detection of signals of selection by interesecting gene expression and allele frequency datasets.
 - `data`: This folder contains all the data produced by the pipeline. This folder is **not included** in the repository. A download link will be provided in the future.
 
-The pipeline is described in details below.
-
 ## Scripts <a name="scripts"></a>
 
       └── scripts
