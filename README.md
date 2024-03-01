@@ -100,7 +100,7 @@ The pipeline is described in detail below.
 The pipeline is splitted in three main folders:
 - `scripts`: This folder contains all the specific -omics tasks to build the data that will be used for higher-level analyses. This includes _e.g._ variants detection, eQTLs analysis, ASE, etc.
 - `analyses`: This folder contains higher-level analyses. This include _e.g._ the detection of signals of selection by interesecting gene expression and allele frequency datasets.
-- `data`: This folder contains all the data produced by the pipeline. This folder is **not included** in the repository. A download link will be provided in the future.
+- `data`: This folder contains all the data produced by the pipeline. This folder is **not included** in the repository as it is too large to be handled by Github. A download link will be provided in the future.
 
 ## Scripts <a name="scripts"></a>
 
@@ -691,7 +691,7 @@ end
 ```
 
 ## Analyses <a name="analyses"></a>
-Analysis pipelines are related to manuscripts under preparation and will be described here later.
+Analysis pipelines are related to manuscripts under preparation and will be displayed and described here later.
 
 ## Data <a name="data"></a>
 
