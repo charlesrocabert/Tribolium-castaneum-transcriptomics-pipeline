@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_SelectPopulation.py
 # ---------------------
@@ -24,6 +24,7 @@ import argparse
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
     parser.add_argument("--in-population", "-in-population", help="Input population")
     parser.add_argument("--in-suffix", "-in-suffix", help="Input population suffix")
     parser.add_argument("--out-population", "-out-population", help="Output population")
@@ -164,30 +165,12 @@ def select_sub_population_in_read_counts( samples, in_pop, in_suffix, out_pop, o
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 1_SelectPopulation.py")
-    print("# ---------------------")
-    print("# Select a population of samples based on a samples list.")
-    print("# (LOCAL SCRIPT)")
-    print("#")
-    print("# 1) Select the subset of samples in the VCF file,")
-    print("# OR")
-    print("# 2) Select the subset of samples in the read counts file.")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments                  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Import the list of samples and                #

@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 3_VariantsToTable.py
 # --------------------
@@ -21,6 +21,8 @@ import subprocess
 ### Parse command line arguments ###
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--repository-path", "-repository-path", help="Repository path")
+    parser.add_argument("--gatk-path", "-gatk-path", help="GATK path")
     parser.add_argument("--population", "-population", help="Sample list population")
     parser.add_argument("--version", "-version", help="Reference genome version")
     parser.add_argument("--suffix", "-suffix", help="Final suffix")
@@ -107,33 +109,18 @@ def parse_annotations( population, version, suffix ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 3_VariantsToTable.py")
-    print("# --------------------")
-    print("# Extract VCF statistics into a text table.")
-    print("# (LOCAL SCRIPT)")
-    print("#***************************************************************************")
-    print("")
-
-    WD_PATH   = "/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation"
-    GATK_PATH = "/Users/charlesrocabert/gatk-4.2.3.0/"
-    os.chdir(WD_PATH)
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
     config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Run GATK SelectVariants      #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Extract VCF statistics into a text table")
-    run_gatk_VariantsToTable( GATK_PATH, config["population"], config["version"], config["suffix"])
+    run_gatk_VariantsToTable(config["gatk_path"], config["population"], config["version"], config["suffix"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 3) Remove GATK header bug       #
