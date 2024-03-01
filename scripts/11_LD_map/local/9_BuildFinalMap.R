@@ -67,7 +67,7 @@ THRESHOLD       = as.numeric(args[6])
 setwd(REPOSITORY_PATH)
 
 #---------------------------------------#
-# 1) Define manual thresholds to cut    #
+# 2) Define manual thresholds to cut    #
 #    map ends                           #
 #---------------------------------------#
 cut_thresholds = list("ChLGX" = c(-1, 75, 0, 1.3e+7),
@@ -84,7 +84,7 @@ cut_thresholds = list("ChLGX" = c(-1, 75, 0, 1.3e+7),
 # plot_marey_map_cut(GENOME_SCALE_MAP, cut_thresholds, "ChLG10")
 
 #---------------------------------------#
-# 2) Load each linkage group separately #
+# 3) Load each linkage group separately #
 #    and build the genome-scale map     #
 #---------------------------------------#
 GENOME_SCALE_MAP = c()
@@ -99,13 +99,13 @@ for (lg in 1:NUMBER_OF_LGS)
 }
 
 #---------------------------------------#
-# 3) Save tha dataset                   #
+# 4) Save tha dataset                   #
 #---------------------------------------#
 filename = paste0("./data/tribolium_ld/",POPULATION,"_",VERSION,"_",SUFFIX,"_ALL.txt")
 write.table(GENOME_SCALE_MAP, file=filename, sep="\t", row.names=F, col.names =T, quote=F)
 
 #---------------------------------------#
-# 4) Plot the map                       #
+# 5) Plot the map                       #
 #---------------------------------------#
 # p1 = ggplot(GENOME_SCALE_MAP, aes(x=1:nrow(GENOME_SCALE_MAP), y=mean_pos)) +
 #   geom_line() +

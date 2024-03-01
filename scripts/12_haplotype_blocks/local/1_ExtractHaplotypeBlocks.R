@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_ExtractHaplotypeBlocks.R
 # --------------------------
@@ -13,13 +13,6 @@
 rm(list=ls())
 
 library("tidyverse")
-
-
-##################
-#      MAIN      #
-##################
-
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation/")
 
 ### Extract haplotype blocks from the genetic map ###
 extract_haplotype_blocks <- function( map, margin_dist, min_size )
@@ -46,24 +39,25 @@ extract_haplotype_blocks <- function( map, margin_dist, min_size )
   return(HB_DATA)
 }
 
+
+##################
+#      MAIN      #
+##################
+
 #-----------------------------------------------#
 # 1) Read command line arguments                #
 #-----------------------------------------------#
-# args = commandArgs(trailingOnly=TRUE)
-# if (length(args)<5)
-# {
-#   stop("Please provide all command line arguments. Exit.", call.=FALSE)
-# }
-# POPULATION     = args[1]
-# VERSION        = args[2]
-# SUFFIX         = args[3]
-# SIZE_THRESHOLD = as.integer(args[4])
-
-POPULATION     = "CT_HD_G1"
-VERSION        = "Tcas3.30"
-SUFFIX         = "final_map_ALL"
-MARGIN         = 0.0
-SIZE_THRESHOLD = 0
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<5)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+POPULATION      = args[2]
+VERSION         = args[3]
+SUFFIX          = args[4]
+SIZE_THRESHOLD  = as.integer(args[5])
+setwd(REPOSITORY_PATH)
 
 #-----------------------------------------------#
 # 2) Open the genetic map                       #
