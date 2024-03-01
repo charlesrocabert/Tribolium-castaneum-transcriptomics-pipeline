@@ -10,11 +10,8 @@
 *.Rapp.history
 *.DS_Store
 clean_folders.sh
-transfer_to_puhti.sh
 
 data/*
-#doc/*
-scripts/deprecated/*
 analyses/deprecated/*
 analyses/direct_indirect_selection_analysis/deprecated/*
 analyses/direct_indirect_selection_analysis/data/*

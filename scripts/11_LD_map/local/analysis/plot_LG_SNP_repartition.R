@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # plot_LG_SNP_repartition.R
 # -------------------------
@@ -47,7 +47,20 @@ plot_linkage_groups <- function( data )
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation")
+#--------------------------------#
+# 1) Read command line arguments #
+#--------------------------------#
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<1)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+setwd(REPOSITORY_PATH)
+
+#--------------------------------#
+# 2) Build the figures           #
+#--------------------------------#
 
 #LODlimit = 12
 d = read.table(paste0("./data/tribolium_ld/stage_4_map.txt"), h=T, sep="\t")

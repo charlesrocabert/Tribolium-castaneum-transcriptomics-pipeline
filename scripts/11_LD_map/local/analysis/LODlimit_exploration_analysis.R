@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # LODlimit_exploration_analysis.R
 # -------------------------------
@@ -58,10 +58,19 @@ plot_linkage_groups <- function( data )
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation/data/tribolium_ld")
+#------------------------------------------#
+# 1) Read command line arguments           #
+#------------------------------------------#
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)<1)
+{
+  stop("Please provide all command line arguments. Exit.", call.=FALSE)
+}
+REPOSITORY_PATH = args[1]
+setwd(REPOSITORY_PATH)
 
 #------------------------------------------#
-# 1) Plot the lodLimit exploration results #
+# 2) Plot the lodLimit exploration results #
 #------------------------------------------#
 LOD  = 5:20
 prop = c()
@@ -82,7 +91,7 @@ points(prop[,1], prop[,4], pch=20)
 abline(v=10, col="red", lty=2)
 
 #------------------------------------------#
-# 2) Plot lodLimit=10 results              #
+# 3) Plot lodLimit=10 results              #
 #------------------------------------------#
 d1 = read.table("LOD10_map.txt", h=T, sep="\t")
 d2 = read.table("LOD10_map_joined.txt", h=T, sep="\t")
@@ -93,7 +102,7 @@ p3 = plot_linkage_groups(d3) + ggtitle("Cleaned map")
 plot_grid(p1, p2, p3, ncol=3)
 
 #------------------------------------------#
-# 3) Comparison with chromosomes size      #
+# 4) Comparison with chromosomes size      #
 #------------------------------------------#
 d    = read.table("LOD10_map_edited.txt", h=T, sep="\t")
 info = d[!duplicated(d$LG),]
