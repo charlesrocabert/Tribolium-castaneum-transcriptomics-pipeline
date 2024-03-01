@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_BamPreProcessing.py
 # ---------------------
@@ -255,30 +255,6 @@ def run_GATK_tasks( sample_name, config ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 1_BamPreProcessing.py")
-    print("# ---------------------")
-    print("# Run BAM file pre-processing tasks.")
-    print("# (HPC SCRIPT --> array wrapper)")
-    print("#")
-    print("# 1) Bam pre-processing:")
-    print("#   1.1) Import the unedited BAM file from Allas,")
-    print("#   1.2) Import the reference genome and generate indices,")
-    print("#   1.3) Add the read group,")
-    print("#   1.4) Uncompress the BAM file to SAM,")
-    print("#   1.5) Edit the SAM file to recalibrate MAPQ values (255 --> 60),")
-    print("#   1.6) Compress edited SAM file to BAM,")
-    print("#   1.7) Copy a version of the BAM file to mark duplicates,")
-    print("#   1.8) Generate BAI index file,")
-    print("#   1.9) Handle splicing events,")
-    print("#   1.10) Export edited BAM files to Allas,")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments                  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

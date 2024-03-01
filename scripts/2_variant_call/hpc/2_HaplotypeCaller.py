@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_HaplotypeCaller.py")
 # --------------------")
@@ -119,25 +119,6 @@ def export_per_sample_gvcf( input_gvcf, bucket ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 2_HaplotypeCaller.py")
-    print("# --------------------")
-    print("# Run the complete pipeline for per-sample variant call.")
-    print("# (HPC SCRIPT --> array wrapper)")
-    print("#")
-    print("# 1) Haplotype-caller (on the marked duplicates BAM file):")
-    print("#   1.1) Import the BAM file from Allas")
-    print("#   1.2) Import the reference genome and generate indexes,")
-    print("#   1.3) Generate BAI index file,")
-    print("#   1.4) Run GATK HaplotypeCaller. This task can take several hours,")
-    print("#   1.5) Export GVCF files to Allas.")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments                  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

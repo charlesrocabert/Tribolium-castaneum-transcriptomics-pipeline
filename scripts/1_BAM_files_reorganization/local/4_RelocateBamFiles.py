@@ -63,9 +63,9 @@ def init_folder( path, version ):
         print("> Exit.")
         sys.exit()
     # Delete data
-    if os.path.exists(PATH+"/"+FOLDER):
-        os.system("rm -rf "+PATH+"/"+FOLDER)
-    os.system("mkdir "+PATH+"/"+FOLDER)
+    if os.path.exists(path+"/"+version):
+        os.system("rm -rf "+path+"/"+version)
+    os.system("mkdir "+path+"/"+version)
 
 ### Relocate the files ###
 def relocate_bam( samples, path, version ):
@@ -93,24 +93,22 @@ if __name__ == '__main__':
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     print(">> Parse command line arguments")
-    config  = parse_arguments()
-    WD_PATH = config["repository_path"]
-    DD_PATH = config["source_path"]
-    os.chdir(WD_PATH)
+    config = parse_arguments()
+    os.chdir(config["repository_path"])
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 2) Relocate Tcas3.30 BAM files  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     version = "Tcas3.30"
     samples = load_bam_map("data/tribolium_bam/bam_map_ALL_"+version+".csv")
-    init_folder(DD_PATH, V1)
-    relocate_bam(samples, DD_PATH, V1)
+    init_folder(config["source_path"], "V1")
+    relocate_bam(samples, config["source_path"], "V1")
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 3) Relocate Tcas5.2 BAM files   #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     version = "Tcas5.2"
     samples = load_bam_map("data/tribolium_bam/bam_map_ALL_"+version+".csv")
-    init_folder(DD_PATH, V2)
-    relocate_bam(samples, DD_PATH, V2)
+    init_folder(config["source_path"], "V2")
+    relocate_bam(samples, config["source_path"], "V2")
 

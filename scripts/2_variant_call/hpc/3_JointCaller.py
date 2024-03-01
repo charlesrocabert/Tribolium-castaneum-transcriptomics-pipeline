@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 3_JointCaller.py
 # ----------------
@@ -150,31 +150,6 @@ def export_joint_call( bucket, population, version ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 3_JointCaller.py")
-    print("# ----------------")
-    print("# Run the complete pipeline for the join call.")
-    print("# (HPC SCRIPT --> run wrapper)")
-    print("#")
-    print("# 1) Generate GenomicsDB database:")
-    print("#   1.1) Import the list of samples,")
-    print("#   1.2) Import all GVCFs from Allas,")
-    print("#   1.3) Import the reference genome from Allas and compute index files,")
-    print("#   1.4) Generate the sample map,")
-    print("#   1.5) Generate the interval list,")
-    print("#   1.6) Run GATK GenomicsDBImport,")
-    print("#   1.7) Export the database to the scratch,")
-    print("# 2) Joint-call cohort:")
-    print("#   2.1) Import the consolidated database from the scratch if needed,")
-    print("#   2.2) Run GATK GenotypeGVCFs,")
-    print("#   2.3) Export the joint-call file (VCF) to the scratch.")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
