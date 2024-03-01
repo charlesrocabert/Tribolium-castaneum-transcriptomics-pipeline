@@ -458,7 +458,6 @@ HPC --> |"Download<br/>read counts"| local
                      ├── 2_ComputePlasticityResponse.R
                      ├── 3_ComputePhenotypicNoise.R
                      └── 4_ComputeRelativeFitness.R
-                └── phenotype_preparation_pipeline.sh
 
 This task uses ready-to-use gene expression data to compute various phenotypes, including plasticity and phenotypic noise.
 The task also computes relative fitnesses.
