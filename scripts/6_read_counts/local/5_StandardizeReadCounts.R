@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 6_StandardizeReadCounts.R
 # -------------------------
@@ -21,23 +21,23 @@ library("ggfortify")
 #      MAIN      #
 ##################
 
-setwd("/Users/charlesrocabert/git/Tribolium-Polygenic-Adaptation/")
-
 #---------------------------------------------#
 # 1) Read command line arguments              #
 #---------------------------------------------#
 args = commandArgs(trailingOnly=TRUE)
-if (length(args)<5)
+if (length(args)<6)
 {
   stop("Please provide all command line arguments. Exit.", call.=FALSE)
 }
-IN_POPULATION  = args[1]
-IN_SUFFIX      = args[2]
-OUT_POPULATION = args[3]
-OUT_SUFFIX     = args[4]
-VERSION        = args[5]
+REPOSITORY_PATH = args[1]
+IN_POPULATION   = args[2]
+IN_SUFFIX       = args[3]
+OUT_POPULATION  = args[4]
+OUT_SUFFIX      = args[5]
+VERSION         = args[6]
 
 stopifnot(paste0(IN_POPULATION,"_",IN_SUFFIX) != paste0(OUT_POPULATION,"_",OUT_SUFFIX))
+setwd(REPOSITORY_PATH)
 
 #---------------------------------------------#
 # 2) Loading samples                          #

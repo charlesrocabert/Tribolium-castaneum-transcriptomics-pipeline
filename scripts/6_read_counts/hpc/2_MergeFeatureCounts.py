@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 2_MergeFeatureCounts.py
 # -----------------------
@@ -121,22 +121,6 @@ def export_merged_read_counts( bucket, suffix, version ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 2_MergeFeatureCounts.py")
-    print("# -----------------------")
-    print("# Merge feature counts from every individual samples.")
-    print("# (HPC SCRIPT --> run wrapper)")
-    print("#")
-    print("# 1) Import the list of samples and all read counts,")
-    print("# 2) Merge read counts in a single file,")
-    print("# 3) Export the resulting file to Allas.")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments      #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

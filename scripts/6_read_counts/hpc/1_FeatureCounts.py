@@ -2,8 +2,8 @@
 # coding: utf-8
 
 #***************************************************************************
-# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume
-# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation
+# Copyright © 2021-2024 Charles Rocabert, Frédéric Guillaume
+# Github: charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline
 #
 # 1_FeatureCounts.py
 # ------------------
@@ -125,25 +125,6 @@ def export_read_counts( sample_name, bucket ):
 ##################
 
 if __name__ == '__main__':
-    print("")
-    print("#***************************************************************************")
-    print("# Copyright © 2021-2023 Charles Rocabert, Frédéric Guillaume")
-    print("# Web: https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation")
-    print("#")
-    print("# 1_FeatureCounts.py")
-    print("# ------------------")
-    print("# Calculate feature counts for every individual samples.")
-    print("# (HPC SCRIPT --> run wrapper)")
-    print("#")
-    print("# 1) Import subread package and compile it,")
-    print("# 2) Import reference genome annotation,")
-    print("# 3) Import the list of samples,")
-    print("# 4) For each BAM file, if the read counts file does not exist:")
-    print("#   4.1) Run subread FeatureCounts,")
-    print("#   4.2) Export resulting files to Allas.")
-    print("#***************************************************************************")
-    print("")
-
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     # 1) Parse command line arguments                  #
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
