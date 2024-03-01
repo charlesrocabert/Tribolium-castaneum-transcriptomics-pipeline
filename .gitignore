@@ -12,11 +12,4 @@
 clean_folders.sh
 
 data/*
-analyses/deprecated/*
-analyses/direct_indirect_selection_analysis/deprecated/*
-analyses/direct_indirect_selection_analysis/data/*
-analyses/direct_indirect_selection_analysis/plots/*
-analyses/direct_indirect_selection_analysis/manuscript/*
-analyses/genetic_map_analysis/data/*
-analyses/genetic_map_analysis/plots/*
-analyses/genetic_map_analysis/deprecated/*
+analyses/*
