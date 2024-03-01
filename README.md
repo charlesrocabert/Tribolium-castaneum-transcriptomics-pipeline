@@ -30,7 +30,6 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
     - [Allele specific expression (ASE)](#scripts_10)
     - [LD map with Lep-MAP3](#scripts_11)
     - [Haplotype blocks](#scripts_12)
-    - [FST clusters](#scripts_13)
   - [Analyses](#analyses)
   - [Data](#data)
 - [Copyright](#copyright)
@@ -112,8 +111,7 @@ The pipeline is described in details below.
            ├── 9_WGCNA_modules
            ├── 10_ASE
            ├── 11_LD_map
-           ├── 12_haplotype_blocks
-           └── 13_Fst_clusters
+           └── 12_haplotype_blocks
 
 -Omics tasks are separated into folders and numbered for clarity.
 For each task, the scripts are also numbered in the order of their execution, and are split between local (`local` folder) and HPC (`hpc` folder).
