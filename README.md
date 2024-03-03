@@ -15,9 +15,9 @@ Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me<
 
 # Table of contents
 - [Introduction](#introduction)
-- [Overview](#overview)
 - [Authors](#authors)
 - [Publications](#publications)
+- [Overview](#overview)
 - [Dependencies](#dependencies)
 - [Description of the pipeline](#pipeline_description)
   - [Scripts](#scripts)
@@ -44,10 +44,6 @@ The objective of this pipeline is to integrate the detection of signals of selec
 
 The pipeline is described in detail below.
 
-# Overview
-
-![final_pipeline](https://github.com/charlesrocabert/Tribolium-Polygenic-Adaptation/assets/25666459/61c9eded-050b-42f4-b29e-a79c62fb6438)
-
 # Authors <a name="authors"></a>
 
 - Charles Rocabert
@@ -59,6 +55,10 @@ The pipeline is described in detail below.
 • Eva L. Koch, Charles Rocabert, Frédéric Guillaume, <em>in prep</em>.
 
 • Charles Rocabert, Eval L. Koch, Frédéric Guillaume. Deciphering the genetic architecture of polygenic adaptation in Tribolium castaneum. <em>ESEB 2022: Congress of the European Society for Evolutionary Biology</em> (Aug. 2022, Prague, Czech Republic)
+
+# Overview
+
+![final_pipeline](https://github.com/charlesrocabert/Tribolium-castaneum-transcriptomics-pipeline/assets/25666459/8bca6e25-6bc1-43bb-8168-574ac17bf9d1)
 
 # Dependencies <a name="dependencies"></a>
 
