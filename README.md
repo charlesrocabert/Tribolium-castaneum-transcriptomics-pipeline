@@ -5,11 +5,11 @@
 <br/>
 </p>
 
-This repository contains the integrative-omics pipeline that I developed during my stay with Prof. Frédéric Guillaume's [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics), from Sept. 2021 to Dec. 2022. The pipeline addresses various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
+This repository contains an integrative-omics pipeline developed in the [Eco-Evolutionary Dynamics group](https://www.helsinki.fi/en/researchgroups/eco-evolutionary-dynamics) from Sept. 2021 to Dec. 2022. The pipeline addresses various facets of the transcriptomic data obtained from the _Tribolium castaneum_ laboratory adaptive experiment published in [Koch & Guillaume (2020a)](https://doi.org/10.1371/journal.pgen.1008768), [Koch & Guillaume (2020b)](https://doi.org/10.1111/mec.15607) and [Koch et al. (2020)](https://doi.org/10.1111/evo.14119).
 
 The pipeline was first designed to be deployed on the [CSC computing farm](https://www.csc.fi/en/). **Some CSC-specific code has been retained in the public version for integrity and publication purposes** (mostly in HPC scripts).
 
-Some parts of the pipeline have not been included yet, as they are related to manuscripts under preparation (`data` and `analyses` folders).
+Some parts of the pipeline have not been included yet, as they are related to manuscripts under preparation (mainly in the `analyses` folders).
 
 Do not hesitate to <a href="mailto:charles DOT rocabert AT hhu DOT de">reach me</a> for any question.
 
@@ -99,7 +99,7 @@ The pipeline is described in detail below.
       ├── data
       └── README.md
 
-The pipeline is splitted in three main folders:
+The pipeline is splitted into three main folders:
 - `scripts`: This folder contains all the specific -omics tasks to build the data that will be used for higher-level analyses. This includes _e.g._ variants detection, eQTLs analysis, ASE, etc.
 - `analyses`: This folder contains higher-level analyses. This include _e.g._ the detection of signals of selection by interesecting gene expression and allele frequency datasets.
 - `data`: This folder contains all the data produced by the pipeline. This folder is **not included** in the repository as it is too large to be handled by Github. A download link will be provided in the future.
