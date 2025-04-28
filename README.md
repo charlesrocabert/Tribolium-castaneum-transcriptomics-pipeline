@@ -70,7 +70,6 @@ The pipeline is described in detail below.
 - bcftools-1.14
 - snpEff-5.1
 - Beagle-5.4
-- Lep-MAP3
 - subread-2.0.3
 - GEMMA-0.98.5
 
